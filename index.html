@@ -1,0 +1,19 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="screen"></div>
+        <!-- build:js js/app.min.js -->
+        <script type="text/javascript" src="lib/melonjs.js"></script>
+        <script type="text/javascript" src="js/game.js"></script>
+        <script type="text/javascript" src="build/js/resources.js"></script>
+        <script type="text/javascript" src="js/states/play.js"></script>
+        <!-- /build -->
+        <script type="text/javascript">
+            me.device.onReady(function onReady() {
+                game.onload();
+            });
+        </script>
+    </body>
+</html>
