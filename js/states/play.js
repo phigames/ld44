@@ -34,7 +34,7 @@ game.PlayStage = me.Stage.extend({
         this.currentInd++
 
         me.game.world.removeChild(this.currentIsl)
-        
+
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd)
         } else {
