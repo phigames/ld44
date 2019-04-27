@@ -54,7 +54,7 @@ game.PlayStage = me.Stage.extend({
 
     generateIslandArray: function() {
         // TODO: Randomizer 
-        return [0,1,0,1,0,1];
+        return [1,0,0,1,0,1];
     },
 
 
