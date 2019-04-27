@@ -1,0 +1,62 @@
+# Idea 1: You're/Your Leiv is currency
+- Leiv is currency (Wikinger Crew mit Leiv als Währung)
+	- Story driven:
+		- Level Design
+		- open World mit verschiedenen Wegen
+
+Var 1 States:
+- Reisen
+- Interaktion mit Stationen
+
+Var 2 States:
+- 
+
+Ziel:
+- HomeBase zu Amerika
+- Population in Amerika nur möglich mit genug Leivs & Lebensmittel
+
+Story Idee:
+- mit Schiff unterwegs --> Steuerpaar
+- mit Schiff von Stationen
+- Stationen:
+	- Leute
+	- Piraten
+	- Buchten
+- Sachen kaufen um Ziel 
+
+Fun Elements im Game:
+- "Leiv is Live"
+- Weibliche Leivs gingen vergessen
+- Trump Mauerschiff
+
+Aktion Insel:
+	- Gute Inseln
+	User Optionen: Inseln anfahren oder nicht
+- Leivs gegen Lebensmittel
+- Leivs für Frieden
+
+	- Schlechte Insel (Piratenschiff)
+	User Optionen: muss angefahren
+- Leivs zum Kanibalen besänftigen
+- Leivs gegen Angriff
+- Leivs für Befruchtung;)
+
+
+Verschiedene Arten von Leivs:
+- Diplomaten Leivs
+- Krieger Leivs
+- Love Leiv
+
+Specials:
+- Seeungeheuer
+- Strudel
+- Piratenschiff
+
+# Idea 3: Currency is alive
+- Geldbeutel ist lebendi
+- muss Münzen in Beutel behalten
+
+# Idea 2: Blut spenden
+- Abwägen Blut spenden/ Rennen
+- Organspende
+- mit Blut/Liquor/Körperteil zahlen
