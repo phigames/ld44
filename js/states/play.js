@@ -33,7 +33,7 @@ game.PlayStage = me.Stage.extend({
 
     nextIsland: function(){
         console.log('nextIsland');
-
+        this.letLeivsEat()
         this.currentInd++
 
         me.game.world.removeChild(this.currentIsl);
@@ -51,7 +51,23 @@ game.PlayStage = me.Stage.extend({
         }
 
         me.game.world.addChild(this.currentIsl);
+    },
 
+    letLeivsEat: function(){
+        let deadLeivs = 0;        
+        let x = 0;
+        while (x<game.playerData.leivNumber){
+            if (game.playerData.foodNumber>=game.playerData.eatRate){
+                game.playerData.foodNumber = game.playerData.foodNumber - game.playerData.eatRate;
+            } else {
+                deadLeivs ++;
+                
+            };
+            x++;
+        };
+        console.log("Nr. of people who have died because of too little food")
+        console.log(deadLeivs)
+        game.playerData.leivNumber = game.playerData.leivNumber-deadLeivs;        
     },
 
     generateIslandArray: function() {

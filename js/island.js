@@ -14,7 +14,7 @@ game.GoodIsland = game.Island.extend({
         console.log("that is a good island");
         this.onDone = null;
         // Slider
-        this.leivSlider = new game.GUI.Slider(300,200, 200, 0, game.playerData.leivNumber);
+        this.leivSlider = new game.GUI.Slider(300,200, 200, 0, game.playerData.leivNumber-1);
         this.foodSlider = new game.GUI.Slider(300,300, 200, 0, this.numberFood);
         this.foodSlider.connect(this.leivSlider, this.exchangeRate)
 
@@ -45,7 +45,7 @@ game.BadIsland = game.Island.extend({
         console.log('this is a bad island');
         this.onDone = null;
         //Slider
-        this.leivSlider = new game.GUI.Slider(300,200,200,0, game.playerData.leivNumber);
+        this.leivSlider = new game.GUI.Slider(300,200,200,0, game.playerData.leivNumber-1);
         this.probSlider = new game.GUI.Slider(300,300, 200, 0, 1);
         let ratio = 1/(this.numberPeople + game.playerData.leivNumber);
         this.probSlider.connect(this.leivSlider, ratio);
@@ -65,7 +65,6 @@ game.BadIsland = game.Island.extend({
     },
 
     fight: function(){
-        console.log(game.playerData)
         let usrNumLeiv = this.leivSlider.getValue();
         let pWinIsland = this.numberPeople/(this.numberPeople + usrNumLeiv);
         let randNumber = Math.random();

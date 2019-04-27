@@ -22,7 +22,8 @@ var game = {
     },
 
     playerData: {
-        leivNumber : 80,
-        foodNumber : 50,
+        leivNumber : 100,
+        foodNumber : 100,
+        eatRate: 1,
     }
 }
