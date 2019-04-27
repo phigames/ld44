@@ -39,6 +39,10 @@ game.GUI.Slider = me.Container.extend({
         me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
     },
 
+    getValue: function() {
+        return Math.round(this.value);
+    },
+
     connect: function(other, ratio) {
         this.connectedSlider = other;
         this.connectedSliderRatio = ratio;
@@ -82,3 +86,4 @@ game.GUI.Slider = me.Container.extend({
         renderer.fillEllipse(sliderX, 10, 10, 10);
     }
 });
+
