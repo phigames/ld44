@@ -7,12 +7,21 @@ game.GUI.Button = me.Container.extend({
         this.text = new me.Text(this.width / 2, 10, {font: "sans-serif", size: 30, fillStyle: "#00FF00", text: label, textAlign: "center"});
         this.addChild(this.text);
         this.backgroundColor = "#FF0000";
+        this.backgroundColorHover = "#880000";
         
+        this.pointerOver = false;
+        me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
+                                                                    me.game.repaint() });
+        me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
+                                                                    me.game.repaint() });
         me.input.registerPointerEvent("pointerdown", this, onClick);
     },
 
     draw: function(renderer) {
-        renderer.setColor(this.backgroundColor);
+        console.log(this.pointerOver);
+        
+        renderer.setColor(this.pointerOver ? this.backgroundColorHover
+                                           : this.backgroundColor);
         renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
         this._super(me.Container, "draw", [renderer]);
     },
@@ -20,7 +29,7 @@ game.GUI.Button = me.Container.extend({
 
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
-        this._super(me.Container, "init", [x, y, width, 20]);
+        this._super(me.Container, "init", [x, y, width, 40]);
         this.anchorPoint = {x: 0, y: 0};
         this.valueText = new me.Text(this.width, 0, {font: "sans-serif", size: 30, fillStyle: "#00FF00"});
         this.addChild(this.valueText);
@@ -32,10 +41,12 @@ game.GUI.Slider = me.Container.extend({
 
         this.connectedSlider = this.connectedSliderRatio = null;
 
-        this.pointerDown = false;
+        this.pointerDown = this.pointerOver = false;
         me.input.registerPointerEvent("pointerdown", this, () => this.pointerDown = true);
         me.input.registerPointerEvent("pointerup", this, () => this.pointerDown = false);
-        me.input.registerPointerEvent("pointerleave", this, () => this.pointerDown = false);
+        me.input.registerPointerEvent("pointerenter", this, () => this.pointerOver = true);
+        me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
+                                                                    this.pointerDown = false });
         me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
     },
 
@@ -80,10 +91,10 @@ game.GUI.Slider = me.Container.extend({
     draw: function(renderer) {
         this._super(me.Container, "draw", [renderer]);
         renderer.setColor("#888888");
-        renderer.fillRect(0, 8, this.width, 4);
+        renderer.fillRect(0, 18, this.width, 4);
         let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
         renderer.setColor("#CCCCCC");
-        renderer.fillEllipse(sliderX, 10, 10, 10);
+        renderer.fillEllipse(sliderX, 20, 10, 10);
     },
 });
 
