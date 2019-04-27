@@ -9,12 +9,21 @@ game.Island = me.Container.extend({
 
 game.GoodIsland = game.Island.extend({
     init: function(difficulty) {
-        this._super(game.Island, "init");
-        this.exchangeRate = 1; // one Food per Leif
+        this._super(game.Island, "init");        
+        //#ToDO: Randomise
+        this.exchangeRate = 1; //one Food per Leif
+        //#ToDo: Randomise
         this.numberFood = 15;
+        //var image = me.loader.getImage("island_placeholder");   
+        //this.graphics = me.Sprite(200, 200,[
+            //me.game.viewport.width / 2 - image.width / 2,
+            //me.game.viewport.height - image.height - 20,
+            //{ image : image }
+        //] );
     },
 
     start: function(onDone) {
+        //this.addChild(this.graphics);
         this.addChild(new game.GUI.Button(10, 10, 'böttn', onDone));
         //Create Sliders
         let maxLeiv = game.playerData.leivNumber;
@@ -40,7 +49,9 @@ game.GoodIsland = game.Island.extend({
 game.BadIsland = game.Island.extend({
     init: function(difficulty){
         this._super(game.Island, "init");
+        //#ToDo: Need to be randomised
         this.numberFood = 15;
+        //#ToDo: Need to be randomised
         this.numberPeople = 20;
 
     },
@@ -48,10 +59,11 @@ game.BadIsland = game.Island.extend({
     start: function(onDone) { 
         // 'enter button' added 
         this.addChild(new game.GUI.Button(10, 10, 'böttn', onDone));
-        
+        let usrNumLeiv = 80; //#TODO: should be instance variable of button    
+
         //Slider for Leivs
-        let maxLeiv = game.playerData.leivNumber
-        let ratio = 1/(this.numberPeople + usrNumLeiv)
+        let maxLeiv = game.playerData.leivNumber;
+        let ratio = 1/(this.numberPeople + usrNumLeiv);
         
         //this.leivSlider = new game.SOWIESO(0, maxLeiv)
         //this.probSlider = new game.SOWIESO(0, 1)
@@ -59,8 +71,6 @@ game.BadIsland = game.Island.extend({
         //this.addChild(this.leivSlider)
         //this.addChild(this.probSlider)
 
-        let usrNumLeiv = 80; //should be instance variable of button    
-        console.log(this.fight(usrNumLeiv));  
     },
 
     fight: function(usrNumLeiv){
