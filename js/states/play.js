@@ -7,7 +7,8 @@ game.PlayStage = me.Stage.extend({
         me.game.world.addChild(new me.ColorLayer("background", "#000000"), 0)
         me.game.world.addChild(this.player);
         //TODO: AddChilde(Island),
-        this.currentInd = 0
+        this.currentInd = 0;
+        this.currentDifficulty = 2;
 
     },
 

@@ -22,6 +22,7 @@ var game = {
     },
 
     playerData: {
-        // attribute
+            leivNumber : 100,
+            foodNumber : 50,
     }
 }
