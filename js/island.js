@@ -28,15 +28,17 @@ game.GoodIsland = game.Island.extend({
         //Create Sliders
         let maxLeiv = game.playerData.leivNumber;
         let maxFood = this.numberFood;
-        //this.leivSlider = new game.SOWIESO(0, maxLeiv)
-        //this.foodSlider = new game.SOWIESO(0, maxFood)
-        //this.foodSlider.connect(this.leivSrlider, this.exchangeRate)
-        //this.addChild(this.leivSlider)
-        //this.addChild(this.foodSlider)
+        this.leivSlider = new game.GUI.Slider(300,200, 200, 0, maxLeiv)
+        this.foodSlider = new game.GUI.Slider(300,300, 200, 0, maxFood)
+        this.foodSlider.connect(this.leivSlider, this.exchangeRate)
+        this.addChild(this.leivSlider)
+        this.addChild(this.foodSlider)
         
         // #TODO: should be instance variables of Button
-        let usrNumLeiv = 0;
-        let usrNumFood = 5;
+        //let usrNumLeiv = 0;
+        //let usrNumFood = 5;
+        let usrNumLeiv = leivSlider.getValue
+        let usrNumFood = foodSlider.getValue
 
         // update game.playerData
         game.playerData.leivNumber = game.playerData.leivNumber - usrNumLeiv;
@@ -59,17 +61,18 @@ game.BadIsland = game.Island.extend({
     start: function(onDone) { 
         // 'enter button' added 
         this.addChild(new game.GUI.Button(10, 10, 'böttn', onDone));
-        let usrNumLeiv = 80; //#TODO: should be instance variable of button    
-
+        //let usrNumLeiv = 80; //#TODO: should be instance variable of button    
         //Slider for Leivs
-        let maxLeiv = game.playerData.leivNumber;
-        let ratio = 1/(this.numberPeople + usrNumLeiv);
         
-        //this.leivSlider = new game.SOWIESO(0, maxLeiv)
-        //this.probSlider = new game.SOWIESO(0, 1)
-        //this.probSlider.connect(this.leivSlider, ratio)
-        //this.addChild(this.leivSlider)
-        //this.addChild(this.probSlider)
+        let maxLeiv = game.playerData.leivNumber;     
+        this.leivSlider = new game.GUI.Slider(300,200,200,0, maxLeiv);
+        this.probSlider = new game.GUI.Slider(300,300, 200, 0, 1);
+        
+        let usrNumLeiv = leivSlider.getValue;
+        let ratio = 1/(this.numberPeople + usrNumLeiv);
+        this.probSlider.connect(this.leivSlider, ratio);
+        this.addChild(this.leivSlider);
+        this.addChild(this.probSlider);
 
     },
 
