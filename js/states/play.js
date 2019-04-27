@@ -1,15 +1,14 @@
 game.PlayStage = me.Stage.extend({
 
     onResetEvent: function() {
-        this.player = new me.Sprite(0, 0, {image: "test"});
-        // me.game.world.addChild(this.player);
         me.game.world.reset();
-        me.game.world.addChild(new me.ColorLayer("background", "#000000"), 0);
-        me.game.world.addChild(this.player);
+        me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), 0);
         
         //The Setting of the Island
         this.currentInd = 0;
         this.islandArray = this.generateIslandArray();
+        console.log(this.islandArray);
+        
 
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
@@ -53,8 +52,12 @@ game.PlayStage = me.Stage.extend({
     },
 
     generateIslandArray: function() {
-        // TODO: Randomizer 
-        return [1,0,0,1,0,1];
+        let sequences = [
+            [1,0,0,1,0,1],
+            [1,1,1,1,1,1],
+            [0,0,0,0,0,0],
+        ]
+        return sequences[Math.floor(Math.random() * sequences.length)];
     },
 
 

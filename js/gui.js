@@ -21,7 +21,7 @@ game.GUI.Button = me.Container.extend({
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, width, 20]);
-        this.anchorPoint = {x: 0, y: 0.5};
+        this.anchorPoint = {x: 0, y: 0};
         this.valueText = new me.Text(this.width, 0, {font: "sans-serif", size: 30, fillStyle: "#00FF00"});
         this.addChild(this.valueText);
 
@@ -30,17 +30,47 @@ game.GUI.Slider = me.Container.extend({
         this.value = (maxValue - minValue) / 2 + minValue;
         this.updateText();
 
-        me.input.registerPointerEvent("pointermove", this, this.onClick.bind(this));
+        this.connectedSlider = this.connectedSliderRatio = null;
+
+        this.pointerDown = false;
+        me.input.registerPointerEvent("pointerdown", this, () => this.pointerDown = true);
+        me.input.registerPointerEvent("pointerup", this, () => this.pointerDown = false);
+        me.input.registerPointerEvent("pointerleave", this, () => this.pointerDown = false);
+        me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
+    },
+
+    connect: function(other, ratio) {
+        this.connectedSlider = other;
+        this.connectedSliderRatio = ratio;
+        other.connectedSlider = this;
+        other.connectedSliderRatio = 1 / ratio;
+        other.updateValueFromConnection();
     },
 
     updateText: function() {
         this.valueText.setText(this.value);
     },
 
-    onClick: function(event) {
-        this.value = ((event.gameX - this.pos.x) / this.width) * (this.maxValue - this.minValue);
-        console.log(event);
+    updateValueFromConnection: function() {
+        this.value = this.connectedSlider.value * this.connectedSliderRatio;
+        if (this.value < this.minValue) {
+            this.value = this.minValue;
+            this.connectedSlider.updateValueFromConnection();
+        } else if (this.value > this.maxValue) {
+            this.value = this.maxValue;
+            this.connectedSlider.updateValueFromConnection();
+        }
         this.updateText();
+    },
+
+    onMove: function(event) {
+        if (this.pointerDown) {
+            this.value = ((event.gameX - this.pos.x) / this.width) * (this.maxValue - this.minValue);
+            this.updateText();
+            if (this.connectedSlider !== null) {
+                this.connectedSlider.updateValueFromConnection();
+            }
+        }
     },
 
     draw: function(renderer) {
