@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "version": "",
+  "name": "ld44",
+  "version": "0.0.1",
   "main": "main.js",
   "devDependencies": {
     "grunt": "^1.0.1",

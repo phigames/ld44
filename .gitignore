@@ -1,3 +1,9 @@
+# IDE stuff
+.vscode/
+
+# build files
 build/
+
+# node stuff
 node_modules/
 package-lock.json
