@@ -1,9 +1,13 @@
 game.GUI = {};
 
-game.GUI.Button = me.Renderable.extend({
+game.GUI.Button = me.Entity.extend({
     init: function(x, y, text, onClick) {
-        this._super(me.Renderable, "init", [x, y, 50, 50]);
-        this.color = '#FF0000';
+        this._super(me.Entity, "init", [x, y, {width: 50, height: 50}]);
+        this.color = "#FF0000";
+        
+        me.input.registerPointerEvent("pointerdown", this, onClick);
+        console.log("asdf");
+        
     },
 
     draw: function(renderer) {
