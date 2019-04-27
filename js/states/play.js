@@ -18,8 +18,11 @@ game.PlayStage = me.Stage.extend({
         }
 
         this.currentIsl.start(this.nextIsland.bind(this));
-        me.game.world.addChild(this.currentIsl);
+        this.leivBar = new game.GUI.Bar(300, 300, 300, 100, "#FF8888");
 
+
+        me.game.world.addChild(this.currentIsl);
+        me.game.world.addChild(this.leivBar);
     },
 
     lastIsland: function() {

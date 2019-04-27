@@ -15,7 +15,7 @@ game.GUI.Button = me.Container.extend({
         renderer.setColor(this.backgroundColor);
         renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
         this._super(me.Container, "draw", [renderer]);
-    }
+    },
 });
 
 game.GUI.Slider = me.Container.extend({
@@ -52,7 +52,7 @@ game.GUI.Slider = me.Container.extend({
     },
 
     updateText: function() {
-        this.valueText.setText(this.value);
+        this.valueText.setText(this.getValue());
     },
 
     updateValueFromConnection: function() {
@@ -84,6 +84,23 @@ game.GUI.Slider = me.Container.extend({
         let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
         renderer.setColor("#CCCCCC");
         renderer.fillEllipse(sliderX, 10, 10, 10);
-    }
+    },
 });
 
+game.GUI.Bar = me.Entity.extend({
+    init: function(x, y, width, maxValue, color) {
+        this._super(me.Entity, "init", [x, y, {width: width, height: 30}]);
+        this.maxValue = maxValue;
+        this.value = 0;
+        this.color = color;
+    },
+
+    draw: function(renderer) {
+        this._super(me.Entity, "draw", [renderer]);
+        renderer.setColor(this.color);
+        renderer.fillRect(0, 0, this.value / this.maxValue * this.width, this.height)
+        renderer.setColor("#888888");
+        renderer.setLineWidth(2);
+        renderer.strokeRect(0, 0, this.width, this.height);
+    },
+});
