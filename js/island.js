@@ -48,16 +48,16 @@ game.GoodIsland = game.Island.extend({
     init: function(difficulty) {
         this._super(game.Island, "init");        
         this.exchangeRate = this.generateExchangeRate(difficulty); //one Food per Leiv
-        this.numberFood = this.generateFood(difficulty);
+        //this.numberFood = this.generateFood(difficulty);
         console.log('generated Exchange Rate', this.exchangeRate )
-        console.log('generate Food', this.numberFood)
+        //console.log('generate Food', this.numberFood)
         console.log("that is a good island");
         this.onDone = null;
         // Slider
         this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber-1);
-        this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
+        //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
-        this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
+        //this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
         this.addIslandElem(290,80,'island','islandImage',1);
         this.addIslandElem(240,65,'flag_left','flagLeft',2)
         this.addIslandElem(280, 103, 'food', 'foodRatio',3)
@@ -70,12 +70,12 @@ game.GoodIsland = game.Island.extend({
         this.onDone = onDone
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
         this.addChild(this.leivSlider);
-        this.addChild(this.foodBar);        
+        //this.addChild(this.foodBar);        
     },
 
     onclickButt: function(){
         this.leivLoss = -(this.leivSlider.getValue());
-        this.foodLossOrGain = this.foodBar.getValue();
+        this.foodLossOrGain = this.leivSlider.getValue()*this.exchangeRate;
         //leivs for food
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
         //receive food
