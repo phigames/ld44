@@ -26,18 +26,19 @@ game.PlayStage = me.Stage.extend({
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
         this.currentIsl.start(this.nextIsland.bind(this));
-        me.game.world.addChild(this.currentIsl);
+        me.game.world.addChild(this.currentIsl, 1.5);
 
         let waves = [
-            new game.OscillatingSprite(0, 200, "water", 0, 10, 1000),
-            new game.OscillatingSprite(0, 300, "water", 0, 10, 1000),
-            new game.OscillatingSprite(0, 400, "water", 0, 10, 1000),
+            new game.OscillatingSprite(0, 130, "water", -20, 0, 1500),
+            new game.OscillatingSprite(-20, 150, "water", 20, 0, 1500),
+            new game.OscillatingSprite(-30, 170, "water", -20, 0, 1500),
+            new game.OscillatingSprite(-50, 190, "water", 20, 0, 1500),
         ];
         for (let i = 0; i < waves.length; i++) {
-            me.game.world.addChild(waves[i]);
+            me.game.world.addChild(waves[i], i + 1);
         }
 
-        let ship = new game.OscillatingSprite(0, 100, "ship", 0, 10, 1000);
+        let ship = new game.OscillatingSprite(0, 100, "ship", 0, 10, 2000);
         me.game.world.addChild(ship);
         
         //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
@@ -76,7 +77,7 @@ game.PlayStage = me.Stage.extend({
             } else {
                 this.currentIsl.start(this.nextIsland.bind(this));
             }
-            me.game.world.addChild(this.currentIsl);
+            me.game.world.addChild(this.currentIsl, 1.5);
         }
     },
 
@@ -106,8 +107,8 @@ game.PlayStage = me.Stage.extend({
         ]
         /*let sequences = [
             [1,0,0,1,0,1],
-            [1,1,1,1,1,1],
-            [0,0,0,0,0,0],
+            [1,1,0,0,1,0],
+            [0,1,1,0,0,1],
         ]*/
         return sequences[Math.floor(Math.random() * sequences.length)];
     },

@@ -30,9 +30,8 @@ game.TransitioningSprite = me.Sprite.extend({
     },
 
     appear: function() {
-        this.pos.set(this.stillX + this.tweenInDistanceX,
-                     this.stillY + this.tweenInDistanceY,
-                     0);
+        this.pos.x = this.stillX + this.tweenInDistanceX;
+        this.pos.y = this.stillY + this.tweenInDistanceY;
         this.alpha = 0;
 
         new me.Tween(this.pos)
@@ -49,9 +48,8 @@ game.TransitioningSprite = me.Sprite.extend({
     },
 
     disappear: function() {
-        this.pos.set(this.stillX,
-                     this.stillY,
-                     0);
+        this.pos.x = this.stillX;
+        this.pos.y = this.stillY;
         this.alpha = 1;
 
         new me.Tween(this.pos)
@@ -76,11 +74,18 @@ game.OscillatingSprite = me.Sprite.extend({
         this.oscillateX = oscillateX;
         this.oscillateY = oscillateY;
         this.oscillatePeriod = oscillatePeriod;
+        let phase = Math.random() * oscillatePeriod * 2;
         new me.Tween(this.pos)
-            .to({ x: this.pos.x + this.oscillateX,
-                  y: this.pos.y + this.oscillateY },
+            .to({ x: this.pos.x + this.oscillateX },
                 this.oscillatePeriod)
-            .easing(me.Tween.Easing.Quadratic.InOut)
+            .easing(me.Tween.Easing.Sinusoidal.InOut)
+            .repeat(Infinity)
+            .yoyo(true)
+            .start();
+        new me.Tween(this.pos)
+            .to({ y: this.pos.y + this.oscillateY },
+                this.oscillatePeriod)
+            .easing(me.Tween.Easing.Sinusoidal.InOut)
             .repeat(Infinity)
             .yoyo(true)
             .start();
