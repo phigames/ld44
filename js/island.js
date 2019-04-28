@@ -71,7 +71,7 @@ game.GoodIsland = game.Island.extend({
         //console.log('generate Food', this.numberFood)
         console.log("that is a good island");
         // Slider
-        this.leivSlider = new game.GUI.Slider(0, 100, 200, 0, game.playerData.leivNumber-1);
+        this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber-1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
         //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
@@ -80,7 +80,7 @@ game.GoodIsland = game.Island.extend({
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
-        this.addChild(new me.Sprite(-10, -23, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(-10, 20, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(15, 20, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
 
 
@@ -114,6 +114,8 @@ game.GoodIsland = game.Island.extend({
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
+        me.game.world.removeChild(this.foodBar)
+        me.game.world.removeChild(this.leivBar)
         this.onDone()
     }
 });
@@ -128,7 +130,7 @@ game.BadIsland = game.Island.extend({
         console.log('Enemy number generated', this.numberPeople);
         console.log('this is a bad island');
         //Slider
-        this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber - 1);
+        this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber - 1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
 
         //////////
@@ -164,6 +166,8 @@ game.BadIsland = game.Island.extend({
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
+        me.game.world.removeChild(this.foodBar)
+        me.game.world.removeChild(this.leivBar)
         this.onDone()
     },
 

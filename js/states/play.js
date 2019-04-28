@@ -45,11 +45,11 @@ game.PlayStage = me.Stage.extend({
        
        
         
-        let scrollCoord = {'x':60, 'y':130};
+        let scrollCoord = {'x':60, 'y':120};
         let scroll = new me.Sprite(scrollCoord['x'], scrollCoord['y'],{image:'scroll'});
         me.game.world.addChild(scroll);
       
-        me.game.world.addChild(new me.Sprite(scrollCoord['x']-20, scrollCoord['y'],{image:'leiv'}));
+        me.game.world.addChild(new me.Sprite(scrollCoord['x']-30, scrollCoord['y']-6,{image:'leiv'}));
         
         
         
