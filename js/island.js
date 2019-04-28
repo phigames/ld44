@@ -58,10 +58,11 @@ game.GoodIsland = game.Island.extend({
         //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
         //this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
-        this.addIslandElem(290,80,'island','islandImage',1);
-        this.addIslandElem(240,65,'flag_left','flagLeft',2)
-        this.addIslandElem(280, 103, 'food', 'foodRatio',3)
-        this.addIslandElem(305, 100, 'leiv', 'leivRatio',3)
+        let islCoord = {'x':290,'y':80}
+        this.addIslandElem(islCoord['x'], islCoord['y'], 'island', 'islandImage',1)
+        this.addIslandElem(islCoord['x']-50, islCoord['y']-15, 'flag_left', 'flagLeft',2)
+        this.addIslandElem(islCoord['x']-10, islCoord['y']+23, 'food', 'foodRatio',3)
+        this.addIslandElem(islCoord['x']+15, islCoord['y']+20, 'leiv', 'leivRatio',3)
         this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
 
     },
@@ -104,14 +105,15 @@ game.BadIsland = game.Island.extend({
         let ratio = 1 / (this.numberPeople + game.playerData.leivNumber);
         //this.probBar.connectIconBar(this.leivSlider, ratio);
         this.leivSlider.connectIconBar(this.probBar,ratio);
-        this.addIslandElem(290, 80, 'island', 'islandImage',1)
-        this.addIslandElem(240, 65, 'flag_left', 'flagLeft',2)
-        this.addIslandElem(360, 62, 'flag_right', 'flagRight',2)
-        this.addIslandElem(265, 105, 'evil_man', 'enemyCount',3)
-        this.addIslandElem(390, 94, 'food', 'foodCount',3)
+        let islCoord = {'x':290,'y':80}
+        this.addIslandElem(islCoord['x'], islCoord['y'], 'island', 'islandImage',1)
+        this.addIslandElem(islCoord['x']-50, islCoord['y']-15, 'flag_left', 'flagLeft',2)
+        this.addIslandElem(islCoord['x']+70, islCoord['y']-18, 'flag_right', 'flagRight',2)
+        this.addIslandElem(islCoord['x']-25, islCoord['y']+25, 'evil_man', 'enemyCount',3)
+        this.addIslandElem(islCoord['x']+100, islCoord['y']+14, 'food', 'foodCount',3)
 
         this.addChild(new game.GUI.TextOverlay(30,60,this.numberPeople))
-        this.addChild(new game.GUI.TextOverlay(30,100,this.numberFood))
+        this.addChild(new game.GUI.TextOverlay(80,60,this.numberFood))
     },
     
     start: function(onDone) { 
