@@ -40,12 +40,12 @@ game.GUI.Slider = me.Container.extend({
         this._super(me.Container, "init", [x, y, width, 40]);
         this.anchorPoint = { x: 0, y: 0 };
 
-        this.background = new me.Sprite(0, 0, { image: "board" });
+        this.background = new me.Sprite(0, 0, { image: "slider_panel" });
         this.addChild(this.background, 99);
 
         this.buttonOffsetX = 0;
         this.buttonOffsetY = 0;
-        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider" });
+        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin" });
         this.addChild(this.button, 100);
 
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
@@ -132,14 +132,10 @@ game.GUI.IconBar = me.Container.extend({
 
     setValue: function(value) {
         this.value = value;
-        console.log(this.icons);
-        
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
         }
         if (this.value > this.icons.length) {
-            console.log("add icons");
-            
             // add icons
             for (let i = this.icons.length; i < value; i++) {
                 this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
@@ -175,8 +171,6 @@ game.GUI.TextBar = me.Container.extend({
     },
 
     setValue: function(value) {
-        console.log(value);
-        
         this.value = value;
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
