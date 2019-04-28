@@ -17,8 +17,11 @@ game.Island = me.Container.extend({
                 500)
             .easing(me.Tween.Easing.Quadratic.Out)
             .start();
-        this.leivBar = new game.GUI.IconBar(100,70,'leiv',50)
+        this.leivBar = new game.GUI.IconBar(110,30,'leiv',game.playerData.leivNumber);
+        this.foodBar = new game.GUI.IconBar(110,55,'food',game.playerData.foodNumber);
+
         me.game.world.addChild(this.leivBar);
+        me.game.world.addChild(this.foodBar)
         
     },
     generateExchangeRate: function (level){
