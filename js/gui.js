@@ -1,10 +1,19 @@
-game.GUI = {};
+game.GUI = {
+    font: "sans-serif",
+    fontSize: 30,
+    fontColor: "#00FF00",
+};
+
 
 game.GUI.Button = me.Container.extend({
     init: function(x, y, label, onClick) {
         this._super(me.Container, "init", [x, y, 100, 50]);
         this.anchorPoint = {x: 0, y: 0};
-        this.text = new me.Text(this.width / 2, 10, {font: "sans-serif", size: 30, fillStyle: "#00FF00", text: label, textAlign: "center"});
+        this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
+                                                      size: game.GUI.fontSize,
+                                                      fillStyle: game.GUI.fontColor,
+                                                      text: label,
+                                                      textAlign: "center" });
         this.addChild(this.text);
         this.backgroundColor = "#FF0000";
         this.backgroundColorHover = "#880000";
@@ -27,11 +36,14 @@ game.GUI.Button = me.Container.extend({
     },
 });
 
+
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, width, 40]);
         this.anchorPoint = {x: 0, y: 0};
-        this.valueText = new me.Text(this.width, 0, {font: "sans-serif", size: 30, fillStyle: "#00FF00"});
+        this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
+                                                      size: game.GUI.fontSize,
+                                                      fillStyle: game.GUI.fontColor });
         this.addChild(this.valueText);
 
         this.minValue = minValue;
@@ -98,12 +110,18 @@ game.GUI.Slider = me.Container.extend({
     },
 });
 
+
 game.GUI.Bar = me.Entity.extend({
     init: function(x, y, width, maxValue, color) {
         this._super(me.Entity, "init", [x, y, {width: width, height: 30}]);
         this.maxValue = maxValue;
         this.value = 0;
         this.color = color;
+    },
+
+    setValue: function(value) {
+        this.value = value;
+        me.game.repaint();
     },
 
     draw: function(renderer) {
