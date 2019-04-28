@@ -1,12 +1,13 @@
 var game = {
     onload: function() {
-        if (!me.video.init(640, 480, {
+        if (!me.video.init(480, 270, {
             wrapper : "screen",
             // TODO check webgl compatibility
             renderer : me.video.CANVAS,
-            scale : "auto",
+            scale : 2,
             scaleMethod : "fit",
-            doubleBuffering : true
+            doubleBuffering : true,
+            useParentDOMSize: true,
         })) {
             alert("Your browser does not support HTML5 Canvas");
             return;
