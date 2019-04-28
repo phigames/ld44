@@ -37,14 +37,15 @@ game.GUI.Button = me.Container.extend({
 
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
-        this._super(me.Container, "init", [x, y, width, 40]);
+        this._super(me.Container, "init", [x, y, 180, 42]);
         this.anchorPoint = { x: 0, y: 0 };
 
-        this.background = new me.Sprite(0, 0, { image: "slider_panel" });
+        this.background = new me.Sprite(-20, 0, { image: "slider_panel" });
+        this.background.anchorPoint = { x: 0, y: 0 };
         this.addChild(this.background, 99);
 
         this.buttonOffsetX = 0;
-        this.buttonOffsetY = 0;
+        this.buttonOffsetY = 23;
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin" });
         this.addChild(this.button, 100);
 
@@ -107,15 +108,6 @@ game.GUI.Slider = me.Container.extend({
             this.setValue((event.gameX - this.pos.x) / this.width * (this.maxValue - this.minValue));
         }
     },
-
-    // draw: function(renderer) {
-    //     this._super(me.Container, "draw", [renderer]);
-    //     renderer.setColor("#888888");
-    //     renderer.fillRect(0, 18, this.width, 4);
-    //     let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
-    //     renderer.setColor("#CCCCCC");
-    //     renderer.fillEllipse(sliderX, 20, 10, 10);
-    // },
 });
 
 
