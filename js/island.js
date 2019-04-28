@@ -22,6 +22,18 @@ game.Island = me.Container.extend({
             return this.randomise(0,5)
         }
     },
+
+    generateEnemies: function (){
+        if (level < 2){
+            return this.randomise(20,30)
+        } else if (level < 4){
+            return this.randomise(20,40)
+        } else {
+            return this.randomise(20,50)
+        }
+    },
+
+    }
     randomise: function (min, max) {
         return Math.floor(Math.random() * (max - min) + min);
           
