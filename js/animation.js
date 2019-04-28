@@ -80,14 +80,4 @@ game.OscillatingSprite = me.Sprite.extend({
             .yoyo(true)
             .start();
     },
-
-    startTween: function(direction) {
-        new me.Tween(this.pos)
-            .to({ x: this.pos.x + this.oscillateX * direction,
-                  y: this.pos.y + this.oscillateY * direction },
-                this.oscillatePeriod)
-            .easing(me.Tween.Easing.Quadratic.InOut)
-            .onComplete(() => this.startTween(-direction))
-            .start();
-    },
 });

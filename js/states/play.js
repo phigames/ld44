@@ -25,10 +25,13 @@ game.PlayStage = me.Stage.extend({
         else {
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
-
         this.currentIsl.start(this.nextIsland.bind(this));
-        //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
         me.game.world.addChild(this.currentIsl);
+
+        this.ship = new game.OscillatingSprite(0, 0, "ship", 0, 30, 1000);
+        me.game.world.addChild(this.ship);
+        
+        //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
         //me.game.world.addChild(this.leivBar);
     },
 
@@ -45,28 +48,27 @@ game.PlayStage = me.Stage.extend({
         console.log('Food eaten on the way:')
         console.log(foodLoss)
         console.log('nextIsland');
-        if (game.playerData.leivNumber==0){
+        if (game.playerData.leivNumber==0) {
             console.log('you have lost the game');
             //me.state.set(me.state.PLAY, new game.PlayStage());
-        } else{
-        this.currentInd++
-
-        me.game.world.removeChild(this.currentIsl);
-
-        if (this.islandArray[this.currentInd] == 0) {
-            this.currentIsl = new game.GoodIsland(this.currentInd)
         } else {
-            this.currentIsl = new game.BadIsland(this.currentInd)
-        }
+            this.currentInd++
 
-        if (this.currentInd == this.islandArray.length) {
-            this.currentIsl.start(this.lastIsland.bind(this));
-        } else {
-            this.currentIsl.start(this.nextIsland.bind(this));
-        }
+            me.game.world.removeChild(this.currentIsl);
 
-        me.game.world.addChild(this.currentIsl);
-        };
+            if (this.islandArray[this.currentInd] == 0) {
+                this.currentIsl = new game.GoodIsland(this.currentInd);
+            } else {
+                this.currentIsl = new game.BadIsland(this.currentInd);
+            }
+
+            if (this.currentInd == this.islandArray.length) {
+                this.currentIsl.start(this.lastIsland.bind(this));
+            } else {
+                this.currentIsl.start(this.nextIsland.bind(this));
+            }
+            me.game.world.addChild(this.currentIsl);
+        }
     },
 
     letLeivsEat: function(){
