@@ -10,7 +10,8 @@ game.PlayStage = me.Stage.extend({
 
     onResetEvent: function() {
         me.game.world.reset();
-        me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), 0);
+        //me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), -1);
+        me.game.world.addChild(new me.Sprite(240, 135, {image:'sky'}),0)
         
         //The Setting of the Island
         this.currentInd = 0;

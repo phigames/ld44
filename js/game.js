@@ -23,7 +23,7 @@ var game = {
     },
 
     playerData: {
-        leivNumber : 100,
+        leivNumber : 50,
         foodNumber : 20,
         eatRate: 1, // how much food is eaten per leif
         stealRate: 1, //how much food per enemy on island is stolen in case of loss

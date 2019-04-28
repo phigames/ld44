@@ -22,45 +22,60 @@ game.Island = me.Container.extend({
             return this.randomise(0,5)
         }
     },
+
+    generateEnemies: function (level){
+        if (level < 2){
+            return this.randomise(20,30)
+        } else if (level < 4){
+            return this.randomise(20,40)
+        } else {
+            return this.randomise(20,50)
+        }
+    },
+
     randomise: function (min, max) {
         return Math.floor(Math.random() * (max - min) + min);
           
     },
+    addIslandElem: function(x, y, image, id, z){
+        this.id = new game.TransitioningSprite(x, y, image, 'right', 300, 'left', 500, true)
+        this.addChild(this.id, z)
+        this.id.appear()
+    }
 });
-
 
 game.GoodIsland = game.Island.extend({
     init: function(difficulty) {
         this._super(game.Island, "init");        
         this.exchangeRate = this.generateExchangeRate(difficulty); //one Food per Leiv
-        this.numberFood = this.generateFood(difficulty);
+        //this.numberFood = this.generateFood(difficulty);
         console.log('generated Exchange Rate', this.exchangeRate )
-        console.log('generate Food', this.numberFood)
+        //console.log('generate Food', this.numberFood)
         console.log("that is a good island");
         this.onDone = null;
         // Slider
-        this.leivSlider = new game.GUI.Slider(200, 220, 200, 0, game.playerData.leivNumber-1);
-        this.foodBar = new game.GUI.IconBar(300,300, this.numberFood);
+        this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber-1);
+        //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
-        this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
-        this.islandImage = new game.TransitioningSprite(290, 80, 'island', 'right', 300, 'left', 500, true)
-        this.addChild(this.islandImage)
-        this.islandImage.appear()
-        this.flagLeft = new game.TransitioningSprite(298, 112, 'flag_left', 'right', 300, 'left', 500, true)
-        this.addChild(this.flagLeft,2)
-        this.flagLeft.appear()
+        //this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
+        this.addIslandElem(290,80,'island','islandImage',1);
+        this.addIslandElem(240,65,'flag_left','flagLeft',2)
+        this.addIslandElem(280, 103, 'food', 'foodRatio',3)
+        this.addIslandElem(305, 100, 'leiv', 'leivRatio',3)
+        this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
+
     },
 
     start: function(onDone) {
         this.onDone = onDone
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
         this.addChild(this.leivSlider);
-        this.addChild(this.foodBar);        
+        //this.addChild(this.foodBar);        
     },
 
     onclickButt: function(){
         this.leivLoss = -(this.leivSlider.getValue());
-        this.foodLossOrGain = this.foodBar.getValue();
+        this.foodLossOrGain = this.leivSlider.getValue()*this.exchangeRate;
         //leivs for food
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
         //receive food
@@ -78,33 +93,32 @@ game.BadIsland = game.Island.extend({
     init: function(difficulty){
         this._super(game.Island, "init");
         this.numberFood = this.generateFood(difficulty);
-        console.log('Food number generated', this.numberFood)
-        this.numberPeople = 20;
+        console.log('Food number generated', this.numberFood);
+        this.numberPeople = this.generateEnemies(difficulty);
+        console.log('Enemy number generated', this.numberPeople);
         console.log('this is a bad island');
         this.onDone = null;
         //Slider
-        this.leivSlider = new game.GUI.Slider(200, 220, 200, 0, game.playerData.leivNumber - 1);
+        this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber - 1);
         this.probBar = new game.GUI.IconBar(300,300, 1);
         let ratio = 1 / (this.numberPeople + game.playerData.leivNumber);
         //this.probBar.connectIconBar(this.leivSlider, ratio);
         this.leivSlider.connectIconBar(this.probBar,ratio);
-        this.islandImage = new game.TransitioningSprite(290, 80, 'island', 'right', 300, 'left', 500, true);
-        this.addChild(this.islandImage);
-        this.islandImage.appear();
-        this.flagLeft = new game.TransitioningSprite(298, 112, 'flag_left', 'right', 300, 'left', 500, true)
-        this.addChild(this.flagLeft,2)
-        this.flagLeft.appear()
-        this.flagLeft = new game.TransitioningSprite(298, 112, 'flag_right', 'right', 300, 'left', 500, true)
-        this.addChild(this.flagLeft,2)
-        this.flagLeft.appear()
-        
+        this.addIslandElem(290, 80, 'island', 'islandImage',1)
+        this.addIslandElem(240, 65, 'flag_left', 'flagLeft',2)
+        this.addIslandElem(360, 62, 'flag_right', 'flagRight',2)
+        this.addIslandElem(265, 105, 'evil_man', 'enemyCount',3)
+        this.addIslandElem(390, 94, 'food', 'foodCount',3)
+
+        this.addChild(new game.GUI.TextOverlay(30,60,this.numberPeople))
+        this.addChild(new game.GUI.TextOverlay(30,100,this.numberFood))
     },
     
     start: function(onDone) { 
         // 'enter button' added 
         this.onDone = onDone;
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
-        this.addChild(this.leivSlider);
+        this.addChild(this.leivSlider,8);
         this.addChild(this.probBar);
     },
 
@@ -139,6 +153,7 @@ game.BadIsland = game.Island.extend({
         };
 
     },
+
 
 
 
