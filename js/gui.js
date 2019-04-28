@@ -56,7 +56,7 @@ game.GUI.Slider = me.Container.extend({
 
         this.minValue = minValue;
         this.maxValue = maxValue;
-        this.value = (maxValue - minValue) / 2 + minValue;
+        this.value = minValue;
 
         // this.connectedIconBar = this.connectedIconBarRatio = null;
         this.connectedBars = [];
