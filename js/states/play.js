@@ -97,8 +97,8 @@ game.PlayStage = me.Stage.extend({
         ]
         /*let sequences = [
             [1,0,0,1,0,1],
-            [1,1,1,1,1,1],
-            [0,0,0,0,0,0],
+            [1,1,0,0,1,0],
+            [0,1,1,0,0,1],
         ]*/
         return sequences[Math.floor(Math.random() * sequences.length)];
     },
