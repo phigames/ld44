@@ -14,7 +14,7 @@ game.GUI.Button = me.Container.extend({
                                                       fillStyle: game.GUI.fontColor,
                                                       text: label,
                                                       textAlign: "center" });
-        this.addChild(this.text);
+        this.addChild(this.text, 100);
         this.backgroundColor = "#FF0000";
         this.backgroundColorHover = "#880000";
         
@@ -39,16 +39,27 @@ game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, width, 40]);
         this.anchorPoint = { x: 0, y: 0 };
+
+        this.background = new me.Sprite(0, 0, { image: "board" });
+        this.addChild(this.background, 99);
+
+        this.buttonOffsetX = 0;
+        this.buttonOffsetY = 0;
+        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider" });
+        this.addChild(this.button, 100);
+
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
                                                       size: game.GUI.fontSize,
                                                       fillStyle: game.GUI.fontColor });
-        this.addChild(this.valueText);
+        this.addChild(this.valueText, 100);
 
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.value = (maxValue - minValue) / 2 + minValue;
 
-        this.connectedIconBar = this.connectedIconBarRatio = null;
+        // this.connectedIconBar = this.connectedIconBarRatio = null;
+        this.connectedBars = [];
+        this.connectedBarRatios = [];
 
         this.setValue(this.value);
 
@@ -63,29 +74,31 @@ game.GUI.Slider = me.Container.extend({
 
     setValue: function(value) {
         this.value = value;
-        this.updateText();
-        this.updateConnection();
+        this.updateConnections();
+        this.updateGraphics();
     },
 
     getValue: function() {
         return Math.round(this.value);
     },
 
-    connectIconBar: function(iconBar, ratio) {
-        this.connectedIconBar = iconBar;
-        this.connectedIconBarRatio = ratio;
+    connectBar: function(bar, ratio) {
+        this.connectedBars.push(bar);
+        this.connectedBarRatios.push(ratio);
         this.setValue(this.value);
     },
 
-    updateConnection: function() {
-        if (this.connectedIconBar !== null) {
-            let barValue = this.connectedIconBar.setValue(this.value * this.connectedIconBarRatio);
-            this.value = barValue / this.connectedIconBarRatio;
-            this.updateText();
+    updateConnections: function() {
+        for (let i = 0; i < this.connectedBars.length; i++) {
+            let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
+            this.value = barValue / this.connectedBarRatios[i];
+            // this.updateText();
         }
     },
 
-    updateText: function() {
+    updateGraphics: function() {
+        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue) * this.width;
+        this.button.pos.x = buttonX;
         this.valueText.setText(this.getValue());
     },
 
@@ -95,49 +108,85 @@ game.GUI.Slider = me.Container.extend({
         }
     },
 
-    draw: function(renderer) {
-        this._super(me.Container, "draw", [renderer]);
-        renderer.setColor("#888888");
-        renderer.fillRect(0, 18, this.width, 4);
-        let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
-        renderer.setColor("#CCCCCC");
-        renderer.fillEllipse(sliderX, 20, 10, 10);
-    },
+    // draw: function(renderer) {
+    //     this._super(me.Container, "draw", [renderer]);
+    //     renderer.setColor("#888888");
+    //     renderer.fillRect(0, 18, this.width, 4);
+    //     let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
+    //     renderer.setColor("#CCCCCC");
+    //     renderer.fillEllipse(sliderX, 20, 10, 10);
+    // },
 });
 
 
-game.GUI.IconBar = me.Entity.extend({
-    init: function(x, y, maxValue, value) {
-        this._super(me.Entity, "init", [x, y, { width: 300, height: 30 }]);
+game.GUI.IconBar = me.Container.extend({
+    init: function(x, y, icon, maxValue) {
+        this._super(me.Container, "init", [x, y]);
         this.anchorPoint = { x: 0, y: 0 };
+        this.icon = icon;
         this.maxValue = maxValue;
-        if (typeof value === "undefined") {
-            value = maxValue;
-        }
-        this.value = value;
-        this.color = "#FF0000";
+        this.value = maxValue;
+        this.icons = [];
+        this.setValue(this.value);
     },
 
     setValue: function(value) {
         this.value = value;
+        console.log(this.icons);
+        
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
         }
-        me.game.repaint();
+        if (this.value > this.icons.length) {
+            console.log("add icons");
+            
+            // add icons
+            for (let i = this.icons.length; i < value; i++) {
+                this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
+                this.addChild(this.icons[i]);
+            }
+        } else {
+            // remove icons
+            for (let i = this.icons.length - 1; i >= value; i--) {
+                this.removeChild(this.icons.pop());
+            }
+        }
         return this.value;
     },
 
     getValue: function() {
         return Math.round(this.value);
     },
+});
 
-    draw: function(renderer) {
-        this._super(me.Entity, "draw", [renderer]);
-        renderer.setColor(this.color);
-        renderer.fillRect(0, 0, this.value / this.maxValue * this.width, this.height)
-        renderer.setColor("#888888");
-        renderer.setLineWidth(2);
-        renderer.strokeRect(0, 0, this.width, this.height);
+
+game.GUI.TextBar = me.Container.extend({
+    init: function(x, y, maxValue) {
+        this._super(me.Container, "init", [x, y]);
+        this.anchorPoint = { x: 0, y: 0 };
+        this.maxValue = maxValue;
+        this.value = maxValue;
+        this.color = "#FF0000";
+        this.text = new me.Text(0, 0, { font: game.GUI.font,
+                                        size: game.GUI.fontSize,
+                                        fillStyle: game.GUI.fontColor });
+        this.addChild(this.text);
+        this.setValue(this.value);
+    },
+
+    setValue: function(value) {
+        console.log(value);
+        
+        this.value = value;
+        if (this.value > this.maxValue) {
+            this.value = this.maxValue;
+        }
+        this.text.setText(this.getValue());
+        return this.value;
+    },
+
+    getValue: function() {
+        return Math.round(this.value);
     },
 });
 
@@ -150,7 +199,7 @@ game.GUI.TextOverlay = me.Container.extend({
                                                             size: game.GUI.fontSize,
                                                             fillStyle: game.GUI.fontColor,
                                                             text: text });
-        this.addChild(this.text);
+        this.addChild(this.text, 100);
         this.anchorPoint = { x: 0, y: 0 };
     },
 
