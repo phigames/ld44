@@ -18,7 +18,8 @@ var game = {
 
     onloaded: function() {
         me.state.set(me.state.PLAY, new game.PlayStage());
-        me.state.change(me.state.PLAY);
+        me.state.set(me.state.USER, new game.PlayStage(true));
+        me.state.change(me.state.USER);
     },
 
     playerData: {
