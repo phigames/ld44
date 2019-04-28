@@ -20,15 +20,13 @@ game.PlayStage = me.Stage.extend({
 
         this.currentIsl.start(this.nextIsland.bind(this));
         //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
-
-
         me.game.world.addChild(this.currentIsl);
         //me.game.world.addChild(this.leivBar);
     },
 
     lastIsland: function() {
         //TODO: Transition to end
-        console.log('Congrats, ou have arrived at the potatoe');
+        console.log('Congrats, you have arrived at the potato');
 
     },
 
