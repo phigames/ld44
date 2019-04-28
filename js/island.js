@@ -101,10 +101,7 @@ game.BadIsland = game.Island.extend({
         this.onDone = null;
         //Slider
         this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber - 1);
-        this.probBar = new game.GUI.TextBar(300,300, 100);
         let ratio = 100 / (this.numberPeople + game.playerData.leivNumber);
-        //this.probBar.connectIconBar(this.leivSlider, ratio);
-        this.leivSlider.connectIconBar(this.probBar,ratio);
         let islCoord = {'x':290,'y':80}
         this.addIslandElem(islCoord['x'], islCoord['y'], 'island', 'islandImage',1)
         this.addIslandElem(islCoord['x']-50, islCoord['y']-15, 'flag_left', 'flagLeft',2)
@@ -121,7 +118,6 @@ game.BadIsland = game.Island.extend({
         this.onDone = onDone;
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
         this.addChild(this.leivSlider,8);
-        this.addChild(this.probBar, 8);
     },
 
     onclickButt: function(){
