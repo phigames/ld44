@@ -1,7 +1,7 @@
 game.GUI = {
     font: "sans-serif",
     fontSize: 30,
-    fontColor: "#00FF00",
+    fontColor: "#000000",
 };
 
 
