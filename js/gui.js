@@ -84,15 +84,24 @@ game.GUI.Slider = me.Container.extend({
     },
 
     connectBar: function(bar, ratio) {
+        
         this.connectedBars.push(bar);
         this.connectedBarRatios.push(ratio);
+        
         this.setValue(this.value);
     },
 
     updateConnections: function() {
         for (let i = 0; i < this.connectedBars.length; i++) {
-            let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
-            this.value = barValue / this.connectedBarRatios[i];
+            // stupid hack ahead!
+            if (this.connectedBarRatios[i] == -1) {
+                // this is a leivBar!
+                this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
+            } else {
+                // not a leivBar
+                let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
+                this.value = barValue / this.connectedBarRatios[i];
+            }
             // this.updateText();
         }
     },
@@ -112,30 +121,42 @@ game.GUI.Slider = me.Container.extend({
 
 
 game.GUI.IconBar = me.Container.extend({
-    init: function(x, y, icon, maxValue) {
+    init: function(x, y, icon, maxValue, leivBar) {
         this._super(me.Container, "init", [x, y]);
+        this.leivBar = typeof leivBar !== "undefined" ? true : false;
         this.anchorPoint = { x: 0, y: 0 };
         this.icon = icon;
         this.maxValue = maxValue;
         this.value = maxValue;
         this.icons = [];
-        this.setValue(this.value);
+        if (this.leivBar) {
+            this.setValue(0);
+        } else {
+            this.setValue(this.value);
+        }
     },
 
     setValue: function(value) {
-        this.value = value;
-        if (this.value > this.maxValue) {
-            this.value = this.maxValue;
+        // children, look away...
+        if (this.leivBar == true) {
+            this.value = game.playerData.leivNumber + value;
+            
+        } else {
+            this.value = value;
+            if (this.value > this.maxValue) {
+                this.value = this.maxValue;
+            }
         }
+        
         if (this.value > this.icons.length) {
             // add icons
-            for (let i = this.icons.length; i < value; i++) {
+            for (let i = this.icons.length; i < this.value; i++) {
                 this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
                 this.addChild(this.icons[i]);
             }
         } else {
             // remove icons
-            for (let i = this.icons.length - 1; i >= value; i--) {
+            for (let i = this.icons.length - 1; i >= this.value; i--) {
                 this.removeChild(this.icons.pop());
             }
         }
