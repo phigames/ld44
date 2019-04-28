@@ -21,7 +21,7 @@ game.GoodIsland = game.Island.extend({
         this.foodBar = new game.GUI.IconBar(300,300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
         this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
-        this.islandImage = new game.TransitioningSprite(400, 300, 'island_placeholder', 'right', 'left', true)
+        this.islandImage = new game.TransitioningSprite(290, 50, 'island_placeholder', 'right', 'left', true)
         this.addChild(this.islandImage)
         this.islandImage.appear()
     },
@@ -57,12 +57,12 @@ game.BadIsland = game.Island.extend({
         console.log('this is a bad island');
         this.onDone = null;
         //Slider
-        this.leivSlider = new game.GUI.Slider(300, 200, 200, 0, game.playerData.leivNumber - 1);
+        this.leivSlider = new game.GUI.Slider(200, 220, 200, 0, game.playerData.leivNumber - 1);
         this.probBar = new game.GUI.IconBar(300,300, 1);
         let ratio = 1 / (this.numberPeople + game.playerData.leivNumber);
         //this.probBar.connectIconBar(this.leivSlider, ratio);
         this.leivSlider.connectIconBar(this.probBar,ratio);
-        this.islandImage = new game.TransitioningSprite(400, 200, 'island', 'right', 300, 'left', 500, true);
+        this.islandImage = new game.TransitioningSprite(290, 50, 'island', 'right', 300, 'left', 500, true);
         this.addChild(this.islandImage);
         this.islandImage.appear();
     },
