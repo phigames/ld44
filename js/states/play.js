@@ -13,6 +13,10 @@ game.PlayStage = me.Stage.extend({
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd);
+        } else if (game.playerData.leivNumber==0){
+            {console.log('you have lost the game');
+            //me.state.set(me.state.PLAY, new game.PlayStage());
+            }   
         } else {
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
@@ -27,13 +31,18 @@ game.PlayStage = me.Stage.extend({
 
     lastIsland: function() {
         //TODO: Transition to end
-        console.log('you know what? FUCK you');
+        console.log('Congrats, ou have arrived at the potatoe');
 
     },
 
     nextIsland: function(){
+        let [leivLoss, foodLoss] = this.letLeivsEat()
+        console.log('People Died on the way:')
+        console.log(leivLoss)
+        console.log('Food eaten on the way:')
+        console.log(foodLoss)
         console.log('nextIsland');
-        this.letLeivsEat()
+        
         this.currentInd++
 
         me.game.world.removeChild(this.currentIsl);
@@ -56,26 +65,32 @@ game.PlayStage = me.Stage.extend({
     letLeivsEat: function(){
         let deadLeivs = 0;        
         let x = 0;
-        while (x<game.playerData.leivNumber){
+        let fedLeivs = 0;
+        //x number of leiv
+        while (x < game.playerData.leivNumber){
+            // if theres food for at least one Leiv
             if (game.playerData.foodNumber>=game.playerData.eatRate){
+                // Subtract food one leiv eats
                 game.playerData.foodNumber = game.playerData.foodNumber - game.playerData.eatRate;
+                fedLeivs++;
             } else {
-                deadLeivs ++;
-                
+                deadLeivs ++; 
             };
             x++;
         };
-        console.log("Nr. of people who have died because of too little food")
-        console.log(deadLeivs)
-        game.playerData.leivNumber = game.playerData.leivNumber-deadLeivs;        
+        game.playerData.leivNumber = game.playerData.leivNumber-deadLeivs;
+        return [-(deadLeivs), -(fedLeivs*game.playerData.eatRate)]
     },
 
     generateIslandArray: function() {
         let sequences = [
+            [1,0,1]
+        ]
+        /*let sequences = [
             [1,0,0,1,0,1],
             [1,1,1,1,1,1],
             [0,0,0,0,0,0],
-        ]
+        ]*/
         return sequences[Math.floor(Math.random() * sequences.length)];
     },
 
