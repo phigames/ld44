@@ -18,8 +18,9 @@ game.GoodIsland = game.Island.extend({
         this.onDone = null;
         // Slider
         this.leivSlider = new game.GUI.Slider(300,200, 200, 0, game.playerData.leivNumber-1);
-        this.foodSlider = new game.GUI.Slider(300,300, 200, 0, this.numberFood);
-        this.foodSlider.connect(this.leivSlider, this.exchangeRate)
+        this.foodBar = new game.GUI.IconBar(300,300, this.numberFood);
+        //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
+        this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
 
     },
 
@@ -27,12 +28,12 @@ game.GoodIsland = game.Island.extend({
         this.onDone = onDone
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
         this.addChild(this.leivSlider);
-        this.addChild(this.foodSlider);        
+        this.addChild(this.foodBar);        
     },
 
     onclickButt: function(){
         this.leivLoss = -(this.leivSlider.getValue());
-        this.foodLossOrGain = this.foodSlider.getValue();
+        this.foodLossOrGain = this.foodBar.getValue();
         //leivs for food
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
         //receive food
@@ -55,9 +56,10 @@ game.BadIsland = game.Island.extend({
         this.onDone = null;
         //Slider
         this.leivSlider = new game.GUI.Slider(300,200,200,0, game.playerData.leivNumber-1);
-        this.probSlider = new game.GUI.Slider(300,300, 200, 0, 1);
+        this.probBar = new game.GUI.IconBar(300,300, 1);
         let ratio = 1/(this.numberPeople + game.playerData.leivNumber);
-        this.probSlider.connect(this.leivSlider, ratio);
+        //this.probBar.connectIconBar(this.leivSlider, ratio);
+        this.leivSlider.connectIconBar(this.probBar,ratio);
     },
     
     start: function(onDone) { 
@@ -65,7 +67,7 @@ game.BadIsland = game.Island.extend({
         this.onDone = onDone;
         this.addChild(new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this)));
         this.addChild(this.leivSlider);
-        this.addChild(this.probSlider);
+        this.addChild(this.probBar);
     },
 
     onclickButt: function(){

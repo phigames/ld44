@@ -13,20 +13,16 @@ game.PlayStage = me.Stage.extend({
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd);
-        } else if (game.playerData.leivNumber==0){
-            {console.log('you have lost the game');
-            //me.state.set(me.state.PLAY, new game.PlayStage());
-            }   
-        } else {
+        }  else {
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
 
         this.currentIsl.start(this.nextIsland.bind(this));
-        this.leivBar = new game.GUI.Bar(300, 300, 300, 100, "#FF8888");
+        //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
 
 
         me.game.world.addChild(this.currentIsl);
-        me.game.world.addChild(this.leivBar);
+        //me.game.world.addChild(this.leivBar);
     },
 
     lastIsland: function() {
@@ -49,12 +45,18 @@ game.PlayStage = me.Stage.extend({
 
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd)
+        } else if (game.playerData.leivNumber==0){
+            console.log('you have lost the game');
+            //me.state.set(me.state.PLAY, new game.PlayStage());
         } else {
             this.currentIsl = new game.BadIsland(this.currentInd)
-        }
+        };
 
         if (this.currentInd == this.islandArray.length) {
             this.currentIsl.start(this.lastIsland.bind(this));
+        } else if (game.playerData.leivNumber==0){
+            console.log('you have lost the game');
+            //me.state.set(me.state.PLAY, new game.PlayStage());
         } else {
             this.currentIsl.start(this.nextIsland.bind(this));
         }
