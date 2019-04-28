@@ -27,27 +27,29 @@ game.Island = me.Container.extend({
     generateExchangeRate: function (level){
         if (level < 2){
             return 2
+        } else if(level <4){
+            return 1
         } else{
             return 1
         }
     },
     generateFood: function (level){
         if (level < 2){
-            return this.randomise(15,30)
+            return this.randomise(5,30)
         } else if (level < 4){
-            return this.randomise(5,15)
+            return this.randomise(10,20)
         } else {
-            return this.randomise(0,5)
+            return this.randomise(5,15)
         }
     },
 
     generateEnemies: function (level){
         if (level < 2){
-            return this.randomise(20,30)
+            return this.randomise(10,15)
         } else if (level < 4){
-            return this.randomise(20,40)
+            return this.randomise(5,20)
         } else {
-            return this.randomise(20,50)
+            return this.randomise(1,25)
         }
     },
 
@@ -80,8 +82,8 @@ game.GoodIsland = game.Island.extend({
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
-        this.addChild(new me.Sprite(-10, 20, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
-        this.addChild(new me.Sprite(15, 20, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(-8, 15, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(20, 26, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
 
 
         //////////
