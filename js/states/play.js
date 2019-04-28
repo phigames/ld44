@@ -43,8 +43,7 @@ game.PlayStage = me.Stage.extend({
         me.game.world.addChild(ship);
         
        
-        let leivBar = new game.GUI.IconBar(70,70,'leiv',50)
-        me.game.world.addChild(leivBar);
+       
         
         let scrollCoord = {'x':60, 'y':130};
         let scroll = new me.Sprite(scrollCoord['x'], scrollCoord['y'],{image:'scroll'});
