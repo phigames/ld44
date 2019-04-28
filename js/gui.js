@@ -20,9 +20,9 @@ game.GUI.Button = me.Container.extend({
         
         this.pointerOver = false;
         me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
-                                                                    me.game.repaint() });
+                                                                    me.game.repaint(); });
         me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
-                                                                    me.game.repaint() });
+                                                                    me.game.repaint(); });
         me.input.registerPointerEvent("pointerdown", this, onClick);
     },
 
@@ -57,7 +57,7 @@ game.GUI.Slider = me.Container.extend({
         me.input.registerPointerEvent("pointerup", this, () => this.pointerDown = false);
         me.input.registerPointerEvent("pointerenter", this, () => this.pointerOver = true);
         me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
-                                                                    this.pointerDown = false });
+                                                                    this.pointerDown = false; });
         me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
     },
 
@@ -107,7 +107,7 @@ game.GUI.Slider = me.Container.extend({
 
 game.GUI.IconBar = me.Entity.extend({
     init: function(x, y, maxValue, value) {
-        this._super(me.Entity, "init", [x, y, {width: 300, height: 30}]);
+        this._super(me.Entity, "init", [x, y, { width: 300, height: 30 }]);
         this.maxValue = maxValue;
         if (typeof value === "undefined") {
             value = maxValue;
@@ -136,5 +136,19 @@ game.GUI.IconBar = me.Entity.extend({
         renderer.setColor("#888888");
         renderer.setLineWidth(2);
         renderer.strokeRect(0, 0, this.width, this.height);
+    },
+});
+
+
+game.GUI.TextOverlay = me.Text.extend({
+    init: function(x, y, width, height, text) {
+        this._super(me.Text, "init", [x, y, { font: game.GUI.font,
+                                              size: game.GUI.fontSize,
+                                              fillStyle: game.GUI.fontColor,
+                                              text: text }]);
+    },
+
+    draw: function(renderer) {
+        this._super(me.Text, "draw", [renderer]);
     },
 });

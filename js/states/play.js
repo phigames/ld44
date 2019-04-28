@@ -1,5 +1,13 @@
 game.PlayStage = me.Stage.extend({
 
+    init: function(tutorial) {
+        this._super(me.Stage, "init");
+        if (typeof tutorial === "undefined") {
+            tutorial = false;
+        }
+        this.tutorial = tutorial;
+    },
+
     onResetEvent: function() {
         me.game.world.reset();
         me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), 0);
