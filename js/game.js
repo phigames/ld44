@@ -1,17 +1,17 @@
 var game = {
     onload: function() {
-        if (!me.video.init(640, 480, {
+        if (!me.video.init(game.width, game.height, {
             wrapper : "screen",
             // TODO check webgl compatibility
             renderer : me.video.CANVAS,
             scale : "auto",
             scaleMethod : "fit",
-            doubleBuffering : true
+            doubleBuffering : true,
+            useParentDOMSize: true,
         })) {
             alert("Your browser does not support HTML5 Canvas");
             return;
         }
-
         me.audio.init("ogg");
         me.loader.preload(game.resources, this.onloaded.bind(this))
     },
@@ -27,5 +27,8 @@ var game = {
         foodNumber : 20,
         eatRate: 1, // how much food is eaten per leif
         stealRate: 1, //how much food per enemy on island is stolen in case of loss
-    }
+    },
+
+    width : 480,
+    height: 270
 }
