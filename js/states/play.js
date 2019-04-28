@@ -21,20 +21,17 @@ game.PlayStage = me.Stage.extend({
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd);
-        } else if (game.playerData.leivNumber==0){
-            {console.log('you have lost the game');
-            //me.state.set(me.state.PLAY, new game.PlayStage());
-            }   
-        } else {
+        }  
+        else {
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
 
         this.currentIsl.start(this.nextIsland.bind(this));
-        this.leivBar = new game.GUI.Bar(300, 300, 300, 100, "#FF8888");
+        //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
 
 
         me.game.world.addChild(this.currentIsl);
-        me.game.world.addChild(this.leivBar);
+        //me.game.world.addChild(this.leivBar);
     },
 
     lastIsland: function() {
@@ -50,7 +47,10 @@ game.PlayStage = me.Stage.extend({
         console.log('Food eaten on the way:')
         console.log(foodLoss)
         console.log('nextIsland');
-        
+        if (game.playerData.leivNumber==0){
+            console.log('you have lost the game');
+            //me.state.set(me.state.PLAY, new game.PlayStage());
+        } else{
         this.currentInd++
 
         me.game.world.removeChild(this.currentIsl);
@@ -68,6 +68,7 @@ game.PlayStage = me.Stage.extend({
         }
 
         me.game.world.addChild(this.currentIsl);
+        };
     },
 
     letLeivsEat: function(){
