@@ -4,7 +4,7 @@ game.Island = me.Container.extend({
         this.foodLossOrGain = 0;
         this.leivLoss = 0;
         this.claimedFood = 0;
-        this.leivBar = new game.GUI.IconBar(70,70,'leiv',50)
+        this.leivBar = new game.GUI.IconBar(100,70,'leiv',50)
         me.game.world.addChild(this.leivBar);
         
     },
@@ -60,7 +60,7 @@ game.GoodIsland = game.Island.extend({
         this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber-1);
         //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
-        this.leivSlider.connectBar(this.leivBar, this.exchangeRate);
+        this.leivSlider.connectBar(this.leivBar, -1);
         let islCoord = {'x':290,'y':80}
         this.addIslandElem(islCoord['x'], islCoord['y'], 'island', 'islandImage',1)
         this.addIslandElem(islCoord['x']-50, islCoord['y']-15, 'flag_left', 'flagLeft',2)
@@ -104,7 +104,7 @@ game.BadIsland = game.Island.extend({
         this.onDone = null;
         //Slider
         this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber - 1);
-        let ratio = 100 / (this.numberPeople + game.playerData.leivNumber);
+        this.leivSlider.connectBar(this.leivBar, -1)
         let islCoord = {'x':290,'y':80}
         this.addIslandElem(islCoord['x'], islCoord['y'], 'island', 'islandImage',1)
         this.addIslandElem(islCoord['x']-50, islCoord['y']-15, 'flag_left', 'flagLeft',2)
