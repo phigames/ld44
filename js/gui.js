@@ -81,6 +81,7 @@ game.GUI.Slider = me.Container.extend({
         if (this.connectedIconBar !== null) {
             let barValue = this.connectedIconBar.setValue(this.value * this.connectedIconBarRatio);
             this.value = barValue / this.connectedIconBarRatio;
+            this.updateText();
         }
     },
 
@@ -140,15 +141,23 @@ game.GUI.IconBar = me.Entity.extend({
 });
 
 
-game.GUI.TextOverlay = me.Text.extend({
-    init: function(x, y, width, height, text) {
-        this._super(me.Text, "init", [x, y, { font: game.GUI.font,
-                                              size: game.GUI.fontSize,
-                                              fillStyle: game.GUI.fontColor,
-                                              text: text }]);
+game.GUI.TextOverlay = me.Container.extend({
+    init: function(x, y, text) {
+        this._super(me.Container, "init", [x, y]);
+        this.margin = 10;
+        this.text = new me.Text(this.margin, this.margin, { font: game.GUI.font,
+                                                            size: game.GUI.fontSize,
+                                                            fillStyle: game.GUI.fontColor,
+                                                            text: text });
+        this.addChild(this.text);
+        this.anchorPoint = { x: 0, y: 0 };
     },
 
     draw: function(renderer) {
-        this._super(me.Text, "draw", [renderer]);
+        this.width = this.text.width + 2 * this.margin;
+        this.height = this.text.height + 2 * this.margin;
+        renderer.setColor("#00FFFF");
+        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        this._super(me.Container, "draw", [renderer]);
     },
 });
