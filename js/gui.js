@@ -27,8 +27,6 @@ game.GUI.Button = me.Container.extend({
     },
 
     draw: function(renderer) {
-        console.log(this.pointerOver);
-        
         renderer.setColor(this.pointerOver ? this.backgroundColorHover
                                            : this.backgroundColor);
         renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
@@ -49,9 +47,10 @@ game.GUI.Slider = me.Container.extend({
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.value = (maxValue - minValue) / 2 + minValue;
-        this.updateText();
 
-        this.connectedSlider = this.connectedSliderRatio = null;
+        this.connectedIconBar = this.connectedIconBarRatio = null;
+
+        this.setValue(this.value);
 
         this.pointerDown = this.pointerOver = false;
         me.input.registerPointerEvent("pointerdown", this, () => this.pointerDown = true);
@@ -62,41 +61,36 @@ game.GUI.Slider = me.Container.extend({
         me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
     },
 
+    setValue: function(value) {
+        this.value = value;
+        this.updateText();
+        this.updateConnection();
+    },
+
     getValue: function() {
         return Math.round(this.value);
     },
 
-    connect: function(other, ratio) {
-        this.connectedSlider = other;
-        this.connectedSliderRatio = ratio;
-        other.connectedSlider = this;
-        other.connectedSliderRatio = 1 / ratio;
-        other.updateValueFromConnection();
+    connectIconBar: function(iconBar, ratio) {
+        this.connectedIconBar = iconBar;
+        this.connectedIconBarRatio = ratio;
+        this.setValue(this.value);
+    },
+
+    updateConnection: function() {
+        if (this.connectedIconBar !== null) {
+            let barValue = this.connectedIconBar.setValue(this.value * this.connectedIconBarRatio);
+            this.value = barValue / this.connectedIconBarRatio;
+        }
     },
 
     updateText: function() {
         this.valueText.setText(this.getValue());
     },
 
-    updateValueFromConnection: function() {
-        this.value = this.connectedSlider.value * this.connectedSliderRatio;
-        if (this.value < this.minValue) {
-            this.value = this.minValue;
-            this.connectedSlider.updateValueFromConnection();
-        } else if (this.value > this.maxValue) {
-            this.value = this.maxValue;
-            this.connectedSlider.updateValueFromConnection();
-        }
-        this.updateText();
-    },
-
     onMove: function(event) {
         if (this.pointerDown) {
-            this.value = ((event.gameX - this.pos.x) / this.width) * (this.maxValue - this.minValue);
-            this.updateText();
-            if (this.connectedSlider !== null) {
-                this.connectedSlider.updateValueFromConnection();
-            }
+            this.setValue((event.gameX - this.pos.x) / this.width * (this.maxValue - this.minValue));
         }
     },
 
@@ -111,17 +105,28 @@ game.GUI.Slider = me.Container.extend({
 });
 
 
-game.GUI.Bar = me.Entity.extend({
-    init: function(x, y, width, maxValue, color) {
-        this._super(me.Entity, "init", [x, y, {width: width, height: 30}]);
+game.GUI.IconBar = me.Entity.extend({
+    init: function(x, y, maxValue, value) {
+        this._super(me.Entity, "init", [x, y, {width: 300, height: 30}]);
         this.maxValue = maxValue;
-        this.value = 0;
-        this.color = color;
+        if (typeof value === "undefined") {
+            value = maxValue;
+        }
+        this.value = value;
+        this.color = "#FF0000";
     },
 
     setValue: function(value) {
         this.value = value;
+        if (this.value > this.maxValue) {
+            this.value = this.maxValue;
+        }
         me.game.repaint();
+        return this.value;
+    },
+
+    getValue: function() {
+        return Math.round(this.value);
     },
 
     draw: function(renderer) {
