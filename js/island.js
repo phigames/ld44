@@ -21,7 +21,9 @@ game.GoodIsland = game.Island.extend({
         this.foodBar = new game.GUI.IconBar(300,300, this.numberFood);
         //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
         this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
-
+        this.islandImage = new game.TransitioningSprite(400, 300, 'island_placeholder', 'right', 'left', true)
+        this.addChild(this.islandImage)
+        this.islandImage.appear()
     },
 
     start: function(onDone) {
@@ -60,6 +62,9 @@ game.BadIsland = game.Island.extend({
         let ratio = 1/(this.numberPeople + game.playerData.leivNumber);
         //this.probBar.connectIconBar(this.leivSlider, ratio);
         this.leivSlider.connectIconBar(this.probBar,ratio);
+        this.islandImage = new game.TransitioningSprite(400, 300, 'island2', 'right', 'left', true);
+        this.addChild(this.islandImage);
+        this.islandImage.appear();
     },
     
     start: function(onDone) { 
