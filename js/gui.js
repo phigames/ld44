@@ -39,6 +39,15 @@ game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, width, 40]);
         this.anchorPoint = { x: 0, y: 0 };
+
+        this.background = new me.Sprite(0, 0, { image: "board" });
+        this.addChild(this.background, 99);
+
+        this.buttonOffsetX = 0;
+        this.buttonOffsetY = 0;
+        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider" });
+        this.addChild(this.button, 100);
+
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
                                                       size: game.GUI.fontSize,
                                                       fillStyle: game.GUI.fontColor });
@@ -65,8 +74,8 @@ game.GUI.Slider = me.Container.extend({
 
     setValue: function(value) {
         this.value = value;
-        this.updateText();
         this.updateConnections();
+        this.updateGraphics();
     },
 
     getValue: function() {
@@ -83,11 +92,13 @@ game.GUI.Slider = me.Container.extend({
         for (let i = 0; i < this.connectedBars.length; i++) {
             let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
             this.value = barValue / this.connectedBarRatios[i];
-            this.updateText();
+            // this.updateText();
         }
     },
 
-    updateText: function() {
+    updateGraphics: function() {
+        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue) * this.width;
+        this.button.pos.x = buttonX;
         this.valueText.setText(this.getValue());
     },
 
@@ -97,14 +108,14 @@ game.GUI.Slider = me.Container.extend({
         }
     },
 
-    draw: function(renderer) {
-        this._super(me.Container, "draw", [renderer]);
-        renderer.setColor("#888888");
-        renderer.fillRect(0, 18, this.width, 4);
-        let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
-        renderer.setColor("#CCCCCC");
-        renderer.fillEllipse(sliderX, 20, 10, 10);
-    },
+    // draw: function(renderer) {
+    //     this._super(me.Container, "draw", [renderer]);
+    //     renderer.setColor("#888888");
+    //     renderer.fillRect(0, 18, this.width, 4);
+    //     let sliderX = this.value / (this.maxValue - this.minValue) * this.width;
+    //     renderer.setColor("#CCCCCC");
+    //     renderer.fillEllipse(sliderX, 20, 10, 10);
+    // },
 });
 
 
