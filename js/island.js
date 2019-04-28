@@ -17,6 +17,9 @@ game.Island = me.Container.extend({
                 500)
             .easing(me.Tween.Easing.Quadratic.Out)
             .start();
+        this.leivBar = new game.GUI.IconBar(100,70,'leiv',50)
+        me.game.world.addChild(this.leivBar);
+        
     },
     generateExchangeRate: function (level){
         if (level < 2){
@@ -76,6 +79,13 @@ game.GoodIsland = game.Island.extend({
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(-10, -23, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(15, 20, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
+
+
+        //////////
+        // TODO some one needs to fix this!!!!! (probably andreas)
+        // this.leivSlider.connectBar(this.leivBar, -1);
+        //////////
+        
         this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
 
         // this stuff belongs to the game world:
@@ -117,8 +127,11 @@ game.BadIsland = game.Island.extend({
         //Slider
         this.leivSlider = new game.GUI.Slider(200, 10, 200, 0, game.playerData.leivNumber - 1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
-        let ratio = 100 / (this.numberPeople + game.playerData.leivNumber);
-        let islCoord = {'x':290,'y':80}
+
+        //////////
+        // TODO some one needs to fix this!!!!! (probably andreas)
+        // this.leivSlider.connectBar(this.leivBar, -1);
+        //////////
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)

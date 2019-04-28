@@ -43,11 +43,12 @@ game.PlayStage = me.Stage.extend({
         me.game.world.addChild(ship);
         
        
-        let scrollCoord = {'x':60, 'y':130}
+       
+        
+        let scrollCoord = {'x':60, 'y':130};
         let scroll = new me.Sprite(scrollCoord['x'], scrollCoord['y'],{image:'scroll'});
         me.game.world.addChild(scroll);
-        let leivCount = new game.GUI.TextOverlay(scrollCoord['x'],scrollCoord['y'],game.playerData.leivNumber);
-        me.game.world.addChild(leivCount);
+      
         me.game.world.addChild(new me.Sprite(scrollCoord['x']-20, scrollCoord['y'],{image:'leiv'}));
         
         
