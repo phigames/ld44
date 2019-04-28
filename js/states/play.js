@@ -28,8 +28,17 @@ game.PlayStage = me.Stage.extend({
         this.currentIsl.start(this.nextIsland.bind(this));
         me.game.world.addChild(this.currentIsl);
 
-        this.ship = new game.OscillatingSprite(0, 100, "ship", 0, 10, 1000);
-        me.game.world.addChild(this.ship);
+        let waves = [
+            new game.OscillatingSprite(0, 200, "water", 0, 10, 1000),
+            new game.OscillatingSprite(0, 300, "water", 0, 10, 1000),
+            new game.OscillatingSprite(0, 400, "water", 0, 10, 1000),
+        ];
+        for (let i = 0; i < waves.length; i++) {
+            me.game.world.addChild(waves[i]);
+        }
+
+        let ship = new game.OscillatingSprite(0, 100, "ship", 0, 10, 1000);
+        me.game.world.addChild(ship);
         
         //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
         //me.game.world.addChild(this.leivBar);
