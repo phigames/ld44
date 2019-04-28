@@ -62,7 +62,7 @@ game.BadIsland = game.Island.extend({
         let ratio = 1 / (this.numberPeople + game.playerData.leivNumber);
         //this.probBar.connectIconBar(this.leivSlider, ratio);
         this.leivSlider.connectIconBar(this.probBar,ratio);
-        this.islandImage = new game.TransitioningSprite(400, 300, 'island', 'right', 'left', true);
+        this.islandImage = new game.TransitioningSprite(400, 200, 'island', 'right', 300, 'left', 500, true);
         this.addChild(this.islandImage);
         this.islandImage.appear();
     },

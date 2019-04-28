@@ -28,7 +28,7 @@ game.PlayStage = me.Stage.extend({
         this.currentIsl.start(this.nextIsland.bind(this));
         me.game.world.addChild(this.currentIsl);
 
-        this.ship = new game.OscillatingSprite(0, 0, "ship", 0, 30, 1000);
+        this.ship = new game.OscillatingSprite(0, 200, "ship", 0, 30, 1000);
         me.game.world.addChild(this.ship);
         
         //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");

@@ -8,7 +8,7 @@ game.GUI = {
 game.GUI.Button = me.Container.extend({
     init: function(x, y, label, onClick) {
         this._super(me.Container, "init", [x, y, 100, 50]);
-        this.anchorPoint = {x: 0, y: 0};
+        this.anchorPoint = { x: 0, y: 0 };
         this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
                                                       size: game.GUI.fontSize,
                                                       fillStyle: game.GUI.fontColor,
@@ -38,7 +38,7 @@ game.GUI.Button = me.Container.extend({
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, width, 40]);
-        this.anchorPoint = {x: 0, y: 0};
+        this.anchorPoint = { x: 0, y: 0 };
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
                                                       size: game.GUI.fontSize,
                                                       fillStyle: game.GUI.fontColor });
@@ -109,6 +109,7 @@ game.GUI.Slider = me.Container.extend({
 game.GUI.IconBar = me.Entity.extend({
     init: function(x, y, maxValue, value) {
         this._super(me.Entity, "init", [x, y, { width: 300, height: 30 }]);
+        this.anchorPoint = { x: 0, y: 0 };
         this.maxValue = maxValue;
         if (typeof value === "undefined") {
             value = maxValue;

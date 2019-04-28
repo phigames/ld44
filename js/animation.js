@@ -1,6 +1,10 @@
 game.TransitioningSprite = me.Sprite.extend({
-    init: function(x, y, image, tweenFrom, tweenTo, tweenAlpha) {
+    init: function(x, y, image,
+                   tweenFrom, tweenFromDistance,
+                   tweenTo, tweenToDistance,
+                   tweenAlpha) {
         this._super(me.Sprite, "init", [0, 0, { image: image, alpha: 0 }]);
+        this.anchorPoint = { x: 0, y: 0 };
 
         this.stillX = x;
         this.stillY = y;
@@ -11,17 +15,17 @@ game.TransitioningSprite = me.Sprite.extend({
         }
         this.tweenAlpha = tweenAlpha;
 
-        this.tweenInDistanceX  = tweenFrom === "left"  ? -100
-                               : tweenFrom === "right" ? 100
+        this.tweenInDistanceX  = tweenFrom === "left"  ? -tweenFromDistance
+                               : tweenFrom === "right" ? tweenFromDistance
                                : 0;
-        this.tweenInDistanceY  = tweenFrom === "top"  ? -100
-                               : tweenFrom === "bottom" ? 100
+        this.tweenInDistanceY  = tweenFrom === "top"  ? -tweenFromDistance
+                               : tweenFrom === "bottom" ? tweenFromDistance
                                : 0;
-        this.tweenOutDistanceX = tweenTo === "left"  ? -100
-                               : tweenTo === "right" ? 100
+        this.tweenOutDistanceX = tweenTo === "left"  ? -tweenToDistance
+                               : tweenTo === "right" ? tweenToDistance
                                : 0;
-        this.tweenOutDistanceY = tweenTo === "top"  ? -100
-                               : tweenTo === "bottom" ? 100
+        this.tweenOutDistanceY = tweenTo === "top"  ? -tweenToDistance
+                               : tweenTo === "bottom" ? tweenToDistance
                                : 0;
     },
 
@@ -68,6 +72,7 @@ game.TransitioningSprite = me.Sprite.extend({
 game.OscillatingSprite = me.Sprite.extend({
     init: function(x, y, image, oscillateX, oscillateY, oscillatePeriod) {
         this._super(me.Sprite, "init", [x, y, { image: image }]);
+        this.anchorPoint = { x: 0, y: 0 };
         this.oscillateX = oscillateX;
         this.oscillateY = oscillateY;
         this.oscillatePeriod = oscillatePeriod;
