@@ -30,9 +30,8 @@ game.TransitioningSprite = me.Sprite.extend({
     },
 
     appear: function() {
-        this.pos.set(this.stillX + this.tweenInDistanceX,
-                     this.stillY + this.tweenInDistanceY,
-                     0);
+        this.pos.x = this.stillX + this.tweenInDistanceX;
+        this.pos.y = this.stillY + this.tweenInDistanceY;
         this.alpha = 0;
 
         new me.Tween(this.pos)
@@ -49,9 +48,8 @@ game.TransitioningSprite = me.Sprite.extend({
     },
 
     disappear: function() {
-        this.pos.set(this.stillX,
-                     this.stillY,
-                     0);
+        this.pos.x = this.stillX;
+        this.pos.y = this.stillY;
         this.alpha = 1;
 
         new me.Tween(this.pos)
