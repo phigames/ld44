@@ -5,9 +5,14 @@ game.PlayStage = me.Stage.extend({
         this.tutorials = [
             /* Level 1 */
             [
-                new game.GUI.TextOverlay(265, 7, "These island dwellers look like\nthey are not good cherries eating...\nHow many of your Leifs do you want\nto send to battle?", "#f4c047", true),
-                new game.GUI.TextOverlay(7, 50, "↑ Number of Leifs and\n   amount of food on board.", "#f4c047", true),
-                new game.GUI.TextOverlay(270, 170, "↑ This island has dwellers to fight\n   and food for you to win.", "#f4c047", true),
+                new game.GUI.TextOverlay(305, 7, " These islanders want to\n steal your food.\n Fight them to get theirs! ", "#f4c047", true),
+                new game.GUI.TextOverlay(7, 50, "This is your current supply of Leifs and food.", "#f4c047", true),
+                new game.GUI.TextOverlay(7, 218, "How many of your Leifs will\nyou send into battle?", "#f4c047", true),
+            ],
+            [
+                new game.GUI.TextOverlay(260, 7, "These islanders are willing to trade\ntheir food for your Leifs.", "#f4c047", true),
+                new game.GUI.TextOverlay(100, 62, "This is their exchange rate.", "#f4c047", true),
+                new game.GUI.TextOverlay(7, 218, "How many Leifs do you\nwant to trade?", "#f4c047", true),
             ],
         ];
     },
@@ -62,7 +67,7 @@ game.PlayStage = me.Stage.extend({
         me.game.world.addChild(new me.Sprite(scrollCoord['x']-25, scrollCoord['y'],{image:'leiv'}));
 
         // island preview
-        this.previewX = 300;
+        this.previewX = 305;
         this.previewY = 30;
         for (let i = 0; i < this.islandArray.length; i++) {
             let img;

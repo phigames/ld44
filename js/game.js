@@ -25,9 +25,9 @@ var game = {
     },
 
     onloaded: function() {
-        me.state.set(me.state.PLAY, new game.PlayStage());
-        me.state.set(me.state.LOADING, new game.StoryStage());
         me.state.set(me.state.MENU, new game.TitleStage());
+        me.state.set(me.state.LOADING, new game.StoryStage());
+        me.state.set(me.state.PLAY, new game.PlayStage());
         me.state.change(me.state.MENU);
     },
 

@@ -226,7 +226,7 @@ game.GUI.TextOverlay = me.Container.extend({
         this.color = color;
         this.margin = 10;
         this.text = new me.Text(this.margin, this.margin, { font: game.GUI.font,
-                                                            size: small ? 10 : game.GUI.fontSize,
+                                                            size: small ? 12 : game.GUI.fontSize,
                                                             fillStyle: game.GUI.fontColor,
                                                             text: text });
         // if (small) {
