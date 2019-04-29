@@ -6,7 +6,9 @@ game.PlayStage = me.Stage.extend({
         this.tutorials = [
             /* Level 1 */
             [
-                new game.GUI.TextOverlay(200, 5, "← how many Leifs are on board"),
+                new game.GUI.TextOverlay(265, 7, "These island dwellers look like\nthey are not good cherries eating...\nHow many of your Leifs do you want\nto send to battle?", "#f4c047", true),
+                new game.GUI.TextOverlay(7, 50, "↑ Number of Leifs and\n   amount of food on board.", "#f4c047", true),
+                new game.GUI.TextOverlay(270, 170, "↑ This island has dwellers to fight\n   and food for you to win.", "#f4c047", true),
             ],
         ];
     },
@@ -87,10 +89,13 @@ game.PlayStage = me.Stage.extend({
     },
 
     addTutorial: function(index) {
-        for (let i = 0; i < this.tutorials[index].length; i++) {
-            let tut = this.tutorials[index][i];
-            this.tutorialTexts.push(tut);
-            me.game.world.addChild(tut, 300);
+        if (index < this.tutorials.length) {
+            for (let i = 0; i < this.tutorials[index].length; i++) {
+                let tut = this.tutorials[index][i];
+                tut.text.fontSize = 10;
+                this.tutorialTexts.push(tut);
+                me.game.world.addChild(tut, 300);
+            }
         }
     },
 
