@@ -94,7 +94,7 @@ game.GUI.Slider = me.Container.extend({
     updateConnections: function() {
         for (let i = 0; i < this.connectedBars.length; i++) {
             // stupid hack ahead!
-            if (this.connectedBarRatios[i] == -1) {
+            if (this.connectedBarRatios[i] == null) {
                 // this is a leivBar!
                 this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
             } else {
@@ -121,31 +121,24 @@ game.GUI.Slider = me.Container.extend({
 
 
 game.GUI.IconBar = me.Container.extend({
-    init: function(x, y, icon, maxValue, leivBar) {
+    init: function(x, y, icon, maxValue) {
         this._super(me.Container, "init", [x, y]);
-        this.leivBar = typeof leivBar !== "undefined" ? true : false;
         this.anchorPoint = { x: 0, y: 0 };
         this.icon = icon;
         this.maxValue = maxValue;
         this.value = maxValue;
         this.icons = [];
-        if (this.leivBar) {
-            this.setValue(0);
-        } else {
-            this.setValue(this.value);
-        }
+        this.initValue();
+    },
+
+    initValue: function() {
+        this.setValue(this.value);
     },
 
     setValue: function(value) {
-        // children, look away...
-        if (this.leivBar == true) {
-            this.value = game.playerData.leivNumber + value;
-            
-        } else {
-            this.value = value;
-            if (this.value > this.maxValue) {
-                this.value = this.maxValue;
-            }
+        this.value = value;
+        if (this.value > this.maxValue) {
+            this.value = this.maxValue;
         }
         
         if (this.value > this.icons.length) {
@@ -160,12 +153,43 @@ game.GUI.IconBar = me.Container.extend({
                 this.removeChild(this.icons.pop());
             }
         }
-        return this.value;
+
+        return this.getValue();
     },
 
     getValue: function() {
         return Math.round(this.value);
     },
+});
+
+
+game.GUI.LeivIconBar = game.GUI.IconBar.extend({
+    init: function(x, y, maxValue) {
+        this._super(game.GUI.IconBar, "init", [x, y, "leiv", maxValue]);
+    },
+
+    initValue: function() {
+        this.setValue(0);
+    },
+
+    setValue: function(value) {
+        this.value = game.playerData.leivNumber + value;
+
+        if (this.value > this.icons.length) {
+            // add icons
+            for (let i = this.icons.length; i < this.value; i++) {
+                this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
+                this.addChild(this.icons[i]);
+            }
+        } else {
+            // remove icons
+            for (let i = this.icons.length - 1; i >= this.value; i--) {
+                this.removeChild(this.icons.pop());
+            }
+        }
+
+        return this.getValue();
+    }
 });
 
 

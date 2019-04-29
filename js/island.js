@@ -6,6 +6,8 @@ game.Island = me.Container.extend({
         this.leivLoss = 0;
         this.claimedFood = 0;
         this.onDone = null;
+        this.leivBar = new game.GUI.LeivIconBar(100,10,50);
+        me.game.world.addChild(this.leivBar, 100);
     },
     start: function(onDone) {
         this.onDone = onDone;
@@ -79,9 +81,7 @@ game.GoodIsland = game.Island.extend({
         this.addChild(new me.Sprite(-8, 15, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(20, 26, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
 
-        this.leivBar = new game.GUI.IconBar(100,10,'leiv',50, false);
-        me.game.world.addChild(this.leivBar, 100);
-        this.leivSlider.connectBar(this.leivBar, -1);
+        this.leivSlider.connectBar(this.leivBar, null);
         
         this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
 
@@ -126,9 +126,7 @@ game.BadIsland = game.Island.extend({
         this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber - 1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
 
-        this.leivBar = new game.GUI.IconBar(50,10,'leiv',50, false);
-        me.game.world.addChild(this.leivBar, 100);
-        this.leivSlider.connectBar(this.leivBar, -1);
+        this.leivSlider.connectBar(this.leivBar, null);
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
