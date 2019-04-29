@@ -6,7 +6,7 @@ var game = {
             .onComplete(func)
             .start();
     },
-    
+
     onload: function() {
         if (!me.video.init(game.width, game.height, {
             wrapper : "screen",
@@ -26,8 +26,8 @@ var game = {
 
     onloaded: function() {
         me.state.set(me.state.PLAY, new game.PlayStage());
-        me.state.set(me.state.USER, new game.PlayStage(true));
-        me.state.change(me.state.USER);
+        me.state.set(me.state.MENU, new game.TitleStage());
+        me.state.change(me.state.MENU);
     },
 
     playerData: {

@@ -8,14 +8,20 @@ game.GUI = {
 
 game.GUI.Button = me.Container.extend({
     init: function(x, y, image, onClick) {
-        this._super(me.Container, "init", [x, y, 100, 50]);
+        this._super(me.Container, "init", [x, y, 47, 47]);
         this.anchorPoint = { x: 0, y: 0 };
         this.sprite = new me.Sprite(0, 0, { image: image + "_unpressed" });
         this.sprite.anchorPoint = { x: 0, y: 0 };
-        this.addChild(this.sprite, 99);
+        this.spritePressed = new me.Sprite(0, 0, { image: image + "_pressed" });
+        this.spritePressed.alpha = 0;
+        this.spritePressed.anchorPoint = { x: 0, y: 0 };
+        this.addChild(this.sprite, 100);
+        this.addChild(this.spritePressed, 101);
         
         this.pointerOver = false;
         me.input.registerPointerEvent("pointerdown", this, onClick);
+        me.input.registerPointerEvent("pointerenter", this, () => this.spritePressed.alpha = 1);
+        me.input.registerPointerEvent("pointerleave", this, () => this.spritePressed.alpha = 0);
     },
 });
 
@@ -32,7 +38,10 @@ game.GUI.Slider = me.Container.extend({
         this.buttonOffsetX = 20;
         this.buttonOffsetY = 23;
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
+        this.buttonPressed = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_pressed" });
+        this.buttonPressed.alpha = 0;
         this.addChild(this.button, 100);
+        this.addChild(this.buttonPressed, 101);
 
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -46,8 +55,8 @@ game.GUI.Slider = me.Container.extend({
         this.pointerDown = this.pointerOver = false;
         me.input.registerPointerEvent("pointerdown", this, () => this.pointerDown = true);
         me.input.registerPointerEvent("pointerup", this, () => this.pointerDown = false);
-        me.input.registerPointerEvent("pointerenter", this, () => this.pointerOver = true);
-        me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
+        me.input.registerPointerEvent("pointerenter", this, () => this.buttonPressed.alpha = 1);
+        me.input.registerPointerEvent("pointerleave", this, () => { this.buttonPressed.alpha = 0;
                                                                     this.pointerDown = false; });
         me.input.registerPointerEvent("pointermove", this, this.onMove.bind(this));
     },
@@ -91,7 +100,7 @@ game.GUI.Slider = me.Container.extend({
 
     updateGraphics: function() {
         let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * (this.width - 2 * this.buttonOffsetX);
-        this.button.pos.x = buttonX;
+        this.button.pos.x = this.buttonPressed.pos.x = buttonX;
     },
 
     onMove: function(event) {
@@ -220,6 +229,9 @@ game.GUI.TextOverlay = me.Container.extend({
                                                             size: small ? 10 : game.GUI.fontSize,
                                                             fillStyle: game.GUI.fontColor,
                                                             text: text });
+        // if (small) {
+        //     this.text.bold();
+        // }
         this.addChild(this.text, 100);
         this.anchorPoint = { x: 0, y: 0 };
     },
