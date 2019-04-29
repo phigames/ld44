@@ -38,7 +38,7 @@ game.PlayStage = me.Stage.extend({
         else {
             this.currentIsl = new game.BadIsland(this.currentInd);
         }
-        this.currentIsl.start(this.nextIsland.bind(this));
+        this.currentIsl.start((() => this.askToContinueJourney(false)).bind(this));
         me.game.world.addChild(this.currentIsl, 1.5);
         this.addTutorial(this.currentInd);
 
@@ -100,10 +100,24 @@ game.PlayStage = me.Stage.extend({
         }
     },
 
+    askToContinueJourney(last) {
+        if (typeof last === "undefined") {
+            last = false;
+        }
+        this.continueButton = new game.GUI.Button(game.width / 2, game.height / 2, "sail", () => {
+            me.game.world.removeChild(this.continueButton);
+            if (last) {
+                this.lastIsland();
+            } else {
+                this.nextIsland();
+            }
+        });
+        me.game.world.addChild(this.continueButton);
+    },
+
     lastIsland: function() {
         //TODO: Transition to end
         console.log('Congrats, you have arrived at the potato');
-
     },
 
     nextIsland: function(){
@@ -149,9 +163,9 @@ game.PlayStage = me.Stage.extend({
         }
 
         if (this.currentInd == this.islandArray.length) {
-            this.currentIsl.start(this.lastIsland.bind(this));
+            this.currentIsl.start((() => this.askToContinueJourney(true)).bind(this));
         } else {
-            this.currentIsl.start(this.nextIsland.bind(this));
+            this.currentIsl.start((() => this.askToContinueJourney(false)).bind(this));
         }
         me.game.world.addChild(this.currentIsl, 1.5);
         this.addTutorial(this.currentInd);
