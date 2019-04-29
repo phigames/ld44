@@ -1,5 +1,10 @@
 game.resources = [
     {
+        "name": "loop",
+        "type": "audio",
+        "src": "res/bgm/"
+    },
+    {
         "name": "coin",
         "type": "audio",
         "src": "res/sfx/"
@@ -48,6 +53,11 @@ game.resources = [
         "name": "bad_sky",
         "type": "image",
         "src": "res/img/bad_sky.png"
+    },
+    {
+        "name": "coast",
+        "type": "image",
+        "src": "res/img/coast.png"
     },
     {
         "name": "evil_man",

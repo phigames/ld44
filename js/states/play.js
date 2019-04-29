@@ -36,6 +36,7 @@ game.PlayStage = me.Stage.extend({
         }  
         else {
             this.currentIsl = new game.BadIsland(this.currentInd);
+            me.audio.play("sword");
         }
         this.currentIsl.start((() => this.askToContinueJourney(false)).bind(this));
         me.game.world.addChild(this.currentIsl, 1.5);
@@ -158,8 +159,11 @@ game.PlayStage = me.Stage.extend({
     startIsland: function() {
         if (this.islandArray[this.currentInd] == 0) {
             this.currentIsl = new game.GoodIsland(this.currentInd);
-        } else {
+        } else if (this.islandArray[this.currentInd] == 1) {
             this.currentIsl = new game.BadIsland(this.currentInd);
+            me.audio.play("sword");
+        } else if (this.islandArray[this.currentInd] == 2) {
+            this.currentIsl = new game.EndIsland(this.currentInd);
         }
 
         if (this.currentInd == this.islandArray.length) {
@@ -195,10 +199,10 @@ game.PlayStage = me.Stage.extend({
 
     generateIslandArray: function() {
         let sequences = [
-            [1,0,1,0,0,1,0],
-            [1,0,0,0,1,1,0],
-            [1,0,0,1,1,0,0],
-            [1,0,1,0,1,0,0]
+            [1,0,1,0,0,1,0,2],
+            [1,0,0,0,1,1,0,2],
+            [1,0,0,1,1,0,0,2],
+            [1,0,1,0,1,0,0,2],
         ]
         return sequences[Math.floor(Math.random() * sequences.length)];
     },

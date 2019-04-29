@@ -212,3 +212,11 @@ game.BadIsland = game.Island.extend({
         });
     }
 });
+
+
+game.EndIsland = game.Island.extend({
+    init: function(difficulty) {
+        this._super(game.Island, "init");
+        this.addChild(new me.Sprite(-20, -80, { image: "coast", anchorPoint: { x: 0, y: 0 } }), 1)
+    },
+});
