@@ -10,13 +10,18 @@ game.PlayStage = me.Stage.extend({
 
     onResetEvent: function() {
         me.game.world.reset();
-        me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), 0);
+        //me.game.world.addChild(new me.ColorLayer("background", "#8888FF"), -1);
+        me.game.world.addChild(new me.Sprite(240, 135, {image:'sky'}),0)
+
+        // bars
+        game.leivBar = new game.GUI.LeivIconBar(110,30, game.playerData.leivNumber);
+        game.foodBar = new game.GUI.IconBar(110, 55, "food", game.playerData.foodNumber);
+        me.game.world.addChild(game.leivBar, 100);
+        me.game.world.addChild(game.foodBar, 100);
         
         //The Setting of the Island
         this.currentInd = 0;
         this.islandArray = this.generateIslandArray();
-        console.log(this.islandArray);
-        
 
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
@@ -41,8 +46,11 @@ game.PlayStage = me.Stage.extend({
         let ship = new game.OscillatingSprite(0, 100, "ship", 0, 10, 2000);
         me.game.world.addChild(ship);
         
-        //this.leivBar = new game.GUI.iconBar(300, 300, 300, 100, "#FF8888");
-        //me.game.world.addChild(this.leivBar);
+        let scrollCoord = {'x':60, 'y':120};
+        let scroll = new me.Sprite(scrollCoord['x'], scrollCoord['y'],{image:'scroll'});
+        me.game.world.addChild(scroll);
+      
+        me.game.world.addChild(new me.Sprite(scrollCoord['x']-30, scrollCoord['y']-6,{image:'leiv'}));
     },
 
     lastIsland: function() {
@@ -58,7 +66,7 @@ game.PlayStage = me.Stage.extend({
         console.log('Food eaten on the way:')
         console.log(foodLoss)
         console.log('nextIsland');
-        if (game.playerData.leivNumber==0) {
+        if (game.playerData.leivNumber == 0) {
             console.log('you have lost the game');
             //me.state.set(me.state.PLAY, new game.PlayStage());
         } else {
@@ -82,34 +90,32 @@ game.PlayStage = me.Stage.extend({
     },
 
     letLeivsEat: function(){
-        let deadLeivs = 0;        
+        let deadLeivs = 0;
         let x = 0;
         let fedLeivs = 0;
         //x number of leiv
         while (x < game.playerData.leivNumber){
             // if theres food for at least one Leiv
-            if (game.playerData.foodNumber>=game.playerData.eatRate){
+            if (game.playerData.foodNumber >= game.playerData.eatRate){
                 // Subtract food one leiv eats
-                game.playerData.foodNumber = game.playerData.foodNumber - game.playerData.eatRate;
+                game.playerData.foodNumber -= game.playerData.eatRate;
                 fedLeivs++;
             } else {
-                deadLeivs ++; 
+                deadLeivs ++;
             };
             x++;
         };
-        game.playerData.leivNumber = game.playerData.leivNumber-deadLeivs;
+        game.playerData.leivNumber -= deadLeivs;
         return [-(deadLeivs), -(fedLeivs*game.playerData.eatRate)]
     },
 
     generateIslandArray: function() {
         let sequences = [
-            [1,0,1]
-        ]
-        /*let sequences = [
-            [1,0,0,1,0,1],
             [1,1,0,0,1,0],
-            [0,1,1,0,0,1],
-        ]*/
+            [1,0,0,1,1,0],
+            [1,0,1,1,0,0],
+            [1,1,0,1,0,0]
+        ]
         return sequences[Math.floor(Math.random() * sequences.length)];
     },
 

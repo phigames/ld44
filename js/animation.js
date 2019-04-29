@@ -2,7 +2,7 @@ game.TransitioningSprite = me.Sprite.extend({
     init: function(x, y, image,
                    tweenFrom, tweenFromDistance,
                    tweenTo, tweenToDistance,
-                   tweenAlpha) {
+                   tweenDuration, tweenAlpha) {
         this._super(me.Sprite, "init", [0, 0, { image: image, alpha: 0 }]);
         this.anchorPoint = { x: 0, y: 0 };
 
@@ -27,6 +27,14 @@ game.TransitioningSprite = me.Sprite.extend({
         this.tweenOutDistanceY = tweenTo === "top"  ? -tweenToDistance
                                : tweenTo === "bottom" ? tweenToDistance
                                : 0;
+
+        this.tweenDuration = tweenDuration;
+    },
+
+    jumpToPosition: function() {
+        this.pos.x = this.stillX;
+        this.pos.y = this.stillY;
+        this.alpha = 1;
     },
 
     appear: function() {
@@ -41,28 +49,42 @@ game.TransitioningSprite = me.Sprite.extend({
             .easing(me.Tween.Easing.Quadratic.Out)
             .start();
 
-        new me.Tween(this)
-            .to({alpha: 1}, this.tweenDuration)
-            .easing(me.Tween.Easing.Quadratic.Out)
-            .start();
+        if (this.tweenAlpha) {
+            new me.Tween(this)
+                .to({alpha: 1}, this.tweenDuration)
+                .easing(me.Tween.Easing.Quadratic.Out)
+                .start();
+        }
     },
 
-    disappear: function() {
+    disappear: function(onComplete, delay) {
+        if (typeof remove === "undefined") {
+            remove = false;
+        }
+        if (typeof delay === "undefined") {
+            delay = 0;
+        }
         this.pos.x = this.stillX;
         this.pos.y = this.stillY;
         this.alpha = 1;
 
-        new me.Tween(this.pos)
+        let tween = new me.Tween(this.pos)
             .to({ x: this.stillX + this.tweenOutDistanceX,
                   y: this.stillY + this.tweenOutDistanceY },
                 this.tweenDuration)
             .easing(me.Tween.Easing.Quadratic.Out)
-            .start();
+            .delay(delay);
+        if (remove) {
+            tween.onComplete(onComplete);
+        }
+        tween.start();
 
-        new me.Tween(this)
-            .to({ alpha: 0 }, this.tweenDuration)
-            .easing(me.Tween.Easing.Quadratic.Out)
-            .start();
+        if (this.tweenAlpha) {
+            new me.Tween(this)
+                .to({ alpha: 0 }, this.tweenDuration)
+                .easing(me.Tween.Easing.Quadratic.Out)
+                .start();
+        }
     },
 });
 
