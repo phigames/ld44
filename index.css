@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe');
 
 
+body {
+    text-align: center;
+}
+
 #screen {
     width: 1440px;
     height: 810px;
-    position: absolute;
+    margin: auto;
 }
 
 @media only screen and (max-width: 1439px){
