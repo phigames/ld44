@@ -15,7 +15,7 @@ game.Island = me.Container.extend({
         this.pos.x = this.pos.x + 300;
         new me.Tween(this.pos)
             .to({ x: targetX },
-                500)
+                700)
             .easing(me.Tween.Easing.Quadratic.Out)
             .start();
     },
@@ -23,7 +23,7 @@ game.Island = me.Container.extend({
     end: function() {
         new me.Tween(this.pos)
             .to({ x: -200 },
-                1000)
+                1200)
             .easing(me.Tween.Easing.Quadratic.In)
             .onComplete(this.onDone)
             .start();
