@@ -30,20 +30,24 @@ in battle and conquer their food supplies.\n\
 If you lose, they will do the same to you.\n\
 Try to reach the fertile lands without\n\
 running out of Leifs or Food!"
-       });
-       me.game.world.addChild(text);
-       me.game.world.addChild(new me.Sprite(195, 18, { image: "leiv" }));
-       me.game.world.addChild(new me.Sprite(288, 50, { image: "leiv" }));
-       me.game.world.addChild(new me.Sprite(291, 50, { image: "leiv" }));
-       me.game.world.addChild(new me.Sprite(294, 50, { image: "leiv" }));
-       me.game.world.addChild(new me.Sprite(297, 50, { image: "leiv" }));
-       me.game.world.addChild(new me.Sprite(300, 50, { image: "leiv" }));
-       me.game.world.addChild(new game.GUI.Button(game.width / 2 - 24, game.height - 60, "start", () => me.state.change(me.state.PLAY)));
-       me.audio.playTrack("loop");
-   },
+        });
+        me.game.world.addChild(text);
+        me.game.world.addChild(new me.Sprite(195, 18, { image: "leiv" }));
+        me.game.world.addChild(new me.Sprite(288, 50, { image: "leiv" }));
+        me.game.world.addChild(new me.Sprite(291, 50, { image: "leiv" }));
+        me.game.world.addChild(new me.Sprite(294, 50, { image: "leiv" }));
+        me.game.world.addChild(new me.Sprite(297, 50, { image: "leiv" }));
+        me.game.world.addChild(new me.Sprite(300, 50, { image: "leiv" }));
+        me.game.world.addChild(new game.GUI.Button(game.width / 2 - 24, game.height - 60, "start", () => me.state.change(me.state.PLAY)));
+        this.play();
+    },
 
-   onDestroyEvent: function() {
+    onDestroyEvent: function() {
 
-   },
-   
+    },
+
+    play: function() {
+        me.audio.play("loop", false, this.play);
+    }
+
 });
