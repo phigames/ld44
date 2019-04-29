@@ -20,16 +20,16 @@ game.Island = me.Container.extend({
     },
     generateExchangeRate: function (level){
         if (level < 2){
-            return 2
-        } else if(level <4){
             return 1
+        } else if(level < 4){
+            return 2
         } else{
             return 1
         }
     },
     generateFood: function (level){
         if (level < 2){
-            return this.randomise(5,30)
+            return this.randomise(20,25)
         } else if (level < 4){
             return this.randomise(10,20)
         } else {
@@ -39,11 +39,11 @@ game.Island = me.Container.extend({
 
     generateEnemies: function (level){
         if (level < 2){
-            return this.randomise(10,15)
+            return this.randomise(5,10)
         } else if (level < 4){
-            return this.randomise(5,20)
+            return this.randomise(1,10)
         } else {
-            return this.randomise(1,25)
+            return this.randomise(5,10)
         }
     },
 
@@ -180,7 +180,13 @@ game.BadIsland = game.Island.extend({
         // make sure that enemies steel food if fight is lost
         else {
             this.foodLossOrGain = -(this.numberPeople * game.playerData.stealRate)
-            game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            // Make sure that not more food than usr has can be stolen
+            if(this.numberPeople * game.playerData.stealRate>game.playerData.numberFood){
+                this.foodLossOrGain = -(game.playerData.numberFood)
+                game.playerData.foodNumber = 0; 
+            }else{
+                game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            }
         };
 
     },

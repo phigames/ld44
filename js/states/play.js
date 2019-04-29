@@ -115,9 +115,10 @@ game.PlayStage = me.Stage.extend({
 
     generateIslandArray: function() {
         let sequences = [
-            [0,1,1,0,1,0],
-            [0,1,0,1,1,0],
-            [0,1,1,1,0,0],
+            [1,1,0,0,1,0],
+            [1,0,0,1,1,0],
+            [1,0,1,1,0,0],
+            [1,1,0,1,0,0]
         ]
         return sequences[Math.floor(Math.random() * sequences.length)];
     },
