@@ -2,35 +2,29 @@ game.GUI = {
     font: 'ZCOOL KuaiLe',
     fontSize: 20,
     fontColor: "#000000",
+    waterLevel: 0,
 };
 
 
 game.GUI.Button = me.Container.extend({
-    init: function(x, y, label, onClick) {
+    init: function(x, y, image, onClick) {
         this._super(me.Container, "init", [x, y, 100, 50]);
         this.anchorPoint = { x: 0, y: 0 };
-        this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
-                                                      size: game.GUI.fontSize,
-                                                      fillStyle: game.GUI.fontColor,
-                                                      text: label,
-                                                      textAlign: "center" });
-        this.addChild(this.text, 100);
-        this.backgroundColor = "#FF0000";
-        this.backgroundColorHover = "#880000";
+        this.sprite = new me.Sprite(0, 0, { image: image + "_unpressed" });
+        this.sprite.anchorPoint = { x: 0, y: 0 };
+        // this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
+        //                                               size: game.GUI.fontSize,
+        //                                               fillStyle: game.GUI.fontColor,
+        //                                               textAlign: "center" });
+        this.addChild(this.sprite, 99);
+        // this.addChild(this.text, 100);
         
         this.pointerOver = false;
-        me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
-                                                                    me.game.repaint(); });
-        me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
-                                                                    me.game.repaint(); });
+        // me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
+        //                                                             me.game.repaint(); });
+        // me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
+        //                                                             me.game.repaint(); });
         me.input.registerPointerEvent("pointerdown", this, onClick);
-    },
-
-    draw: function(renderer) {
-        renderer.setColor(this.pointerOver ? this.backgroundColorHover
-                                           : this.backgroundColor);
-        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-        this._super(me.Container, "draw", [renderer]);
     },
 });
 
@@ -174,11 +168,12 @@ game.GUI.IconBar = me.Container.extend({
             }
         } else {
             // remove icons
-            for (let i = this.icons.length - 1; i >= this.getValue(); i--) {
+            let lastI = this.icons.length - 1;
+            for (let i = lastI; i >= this.getValue(); i--) {
                 let oldIcon = this.icons.pop();
                 //TODO cancel running tweens
                 if (animate) {
-                    oldIcon.disappear(() => this.removeChild(oldIcon));
+                    oldIcon.disappear(() => this.removeChild(oldIcon), (-i + lastI) * 200);
                 } else {
                     this.removeChild(oldIcon);
                 }
