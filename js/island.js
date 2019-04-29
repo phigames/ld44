@@ -6,10 +6,12 @@ game.Island = me.Container.extend({
         this.leivLoss = 0;
         this.claimedFood = 0;
         this.onDone = null;
-        this.leivBar = new game.GUI.LeivIconBar(100,10,50);
+        this.leivBar = new game.GUI.LeivIconBar(110,30, game.playerData.leivNumber);
+        this.foodBar = new game.GUI.IconBar(110, 55, "food", game.playerData.foodNumber);
         me.game.world.addChild(this.leivBar, 100);
-        // TODO re-implement Vera's foodBar and leivBar coordinates
+        me.game.world.addChild(this.foodBar, 100);
     },
+
     start: function(onDone) {
         this.onDone = onDone;
         // animation
@@ -21,6 +23,13 @@ game.Island = me.Container.extend({
             .easing(me.Tween.Easing.Quadratic.Out)
             .start();
     },
+
+    end: function() {
+        me.game.world.removeChild(this.leivBar);
+        me.game.world.removeChild(this.foodBar);
+        this.onDone();
+    },
+
     generateExchangeRate: function (level){
         if (level < 2){
             return 1
@@ -30,6 +39,7 @@ game.Island = me.Container.extend({
             return 1
         }
     },
+
     generateFood: function (level){
         if (level < 2){
             return this.randomise(20,25)
@@ -54,11 +64,6 @@ game.Island = me.Container.extend({
         return Math.floor(Math.random() * (max - min) + min);
           
     },
-    // addIslandElem: function(x, y, image, id, z){
-    //     this.id = new game.TransitioningSprite(x, y, image, 'right', 300, 'left', 500, true)
-    //     this.addChild(this.id, z)
-    //     this.id.appear()
-    // }
 });
 
 game.GoodIsland = game.Island.extend({
@@ -72,9 +77,6 @@ game.GoodIsland = game.Island.extend({
         // Slider
         this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber-1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
-        //this.foodBar = new game.GUI.IconBar(300, 300, this.numberFood);
-        //this.foodBar.connectIconBar(this.leivSlider, this.exchangeRate);
-        //this.leivSlider.connectIconBar(this.foodBar, this.exchangeRate);
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
@@ -93,24 +95,23 @@ game.GoodIsland = game.Island.extend({
 
     start: function(onDone) {
         this._super(game.Island, "start", [onDone]);
-        //this.addChild(this.foodBar);        
     },
 
     onclickButt: function(){
         this.leivLoss = -(this.leivSlider.getValue());
         this.foodLossOrGain = this.leivSlider.getValue()*this.exchangeRate;
         //leivs for food
-        game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
+        game.playerData.leivNumber += this.leivLoss;
         //receive food
-        game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+        game.playerData.foodNumber += this.foodLossOrGain;
+        this.foodBar.setValue(game.playerData.foodNumber, true);
         console.log('LeivLoss:')
         console.log(this.leivLoss)
         console.log('foodLossOrGain:')
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
-        me.game.world.removeChild(this.leivBar);
-        this.onDone()
+        this.end();
     }
 });
 
@@ -157,8 +158,7 @@ game.BadIsland = game.Island.extend({
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
-        me.game.world.removeChild(this.leivBar);
-        this.onDone()
+        this.end();
     },
 
     fight: function(){
@@ -185,12 +185,7 @@ game.BadIsland = game.Island.extend({
                 this.foodLossOrGain -= game.playerData.foodNumber;
                 game.playerData.foodNumber = 0;
             }
-            // if(this.numberPeople * game.playerData.stealRate>game.playerData.numberFood){
-            //     this.foodLossOrGain = -(game.playerData.numberFood)
-            //     game.playerData.foodNumber = 0; 
-            // }else{
-            //     game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
-            // }
+            this.foodBar.setValue(game.playerData.foodNumber, true);
         };
 
     },
