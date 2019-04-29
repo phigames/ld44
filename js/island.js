@@ -6,10 +6,6 @@ game.Island = me.Container.extend({
         this.leivLoss = 0;
         this.claimedFood = 0;
         this.onDone = null;
-        this.leivBar = new game.GUI.LeivIconBar(110,30, game.playerData.leivNumber);
-        this.foodBar = new game.GUI.IconBar(110, 55, "food", game.playerData.foodNumber);
-        me.game.world.addChild(this.leivBar, 100);
-        me.game.world.addChild(this.foodBar, 100);
     },
 
     start: function(onDone) {
@@ -25,8 +21,6 @@ game.Island = me.Container.extend({
     },
 
     end: function() {
-        me.game.world.removeChild(this.leivBar);
-        me.game.world.removeChild(this.foodBar);
         this.onDone();
     },
 
@@ -84,7 +78,7 @@ game.GoodIsland = game.Island.extend({
         this.addChild(new me.Sprite(-8, 15, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(20, 26, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
 
-        this.leivSlider.connectBar(this.leivBar, null);
+        this.leivSlider.connectBar(game.leivBar, null);
         
         this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
 
@@ -99,12 +93,12 @@ game.GoodIsland = game.Island.extend({
 
     onclickButt: function(){
         this.leivLoss = -(this.leivSlider.getValue());
-        this.foodLossOrGain = this.leivSlider.getValue()*this.exchangeRate;
+        this.foodLossOrGain = this.leivSlider.getValue() * this.exchangeRate;
         //leivs for food
         game.playerData.leivNumber += this.leivLoss;
         //receive food
         game.playerData.foodNumber += this.foodLossOrGain;
-        this.foodBar.setValue(game.playerData.foodNumber, true);
+        game.foodBar.setValue(game.playerData.foodNumber, true);
         console.log('LeivLoss:')
         console.log(this.leivLoss)
         console.log('foodLossOrGain:')
@@ -128,7 +122,7 @@ game.BadIsland = game.Island.extend({
         this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber - 1);
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
 
-        this.leivSlider.connectBar(this.leivBar, null);
+        this.leivSlider.connectBar(game.leivBar, null);
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
@@ -171,6 +165,8 @@ game.BadIsland = game.Island.extend({
             console.log("you have won the fight");
         };
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
+        game.leivBar.setValue(game.playerData.leivNumber, true);
+
         // if fight is lost enemies get all food from island
         if (winningParty == 1){
             this.foodLossOrGain = this.numberFood;
@@ -185,7 +181,7 @@ game.BadIsland = game.Island.extend({
                 this.foodLossOrGain -= game.playerData.foodNumber;
                 game.playerData.foodNumber = 0;
             }
-            this.foodBar.setValue(game.playerData.foodNumber, true);
+            game.foodBar.setValue(game.playerData.foodNumber, true);
         };
 
     },

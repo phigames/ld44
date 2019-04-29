@@ -96,7 +96,7 @@ game.GUI.Slider = me.Container.extend({
             // stupid hack ahead!
             if (this.connectedBarRatios[i] == null) {
                 // this is a leivBar!
-                this.connectedBars[i].setValue(-this.value, true);
+                this.connectedBars[i].setValue(-this.value, false);
             } else {
                 // not a leivBar
                 let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
@@ -160,7 +160,7 @@ game.GUI.IconBar = me.Container.extend({
                 let newIcon = new game.TransitioningSprite(i * 3, 0, this.icon, "top", 20, "bottom", 20, 300, true);
                 // let newIcon = new me.Sprite(i * 3, -20, { image: this.icon });
                 this.icons.push(newIcon);
-                this.addChild(newIcon);
+                this.addChild(newIcon, i);
                 if (animate) {
                     newIcon.appear();
                 } else {
@@ -169,7 +169,7 @@ game.GUI.IconBar = me.Container.extend({
             }
         } else {
             // remove icons
-            for (let i = this.icons.length - 1; i >= this.value; i--) {
+            for (let i = this.icons.length - 1; i >= this.getValue(); i--) {
                 let oldIcon = this.icons.pop();
                 //TODO cancel running tweens
                 if (animate) {
