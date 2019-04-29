@@ -30,9 +30,9 @@ game.Island = me.Container.extend({
     },
 
     generateExchangeRate: function (level){
-        if (level < 2){
+        /* if (level < 2){
             return 1
-        } else if(level < 4){
+        } else */ if(level < 4){
             return 2
         } else{
             return 1
@@ -51,11 +51,11 @@ game.Island = me.Container.extend({
 
     generateEnemies: function (level){
         if (level < 2){
-            return this.randomise(5,10)
+            return this.randomise(5,9)
         } else if (level < 4){
-            return this.randomise(1,10)
+            return this.randomise(1,9)
         } else {
-            return this.randomise(5,10)
+            return this.randomise(5,9)
         }
     },
 
@@ -85,7 +85,7 @@ game.GoodIsland = game.Island.extend({
 
 
         
-        this.addChild(new game.GUI.TextOverlay(-35, 10, this.exchangeRate + "      /"))
+        this.addChild(new game.GUI.TextOverlay(-35, 10, this.exchangeRate + "     /"))
 
         // this stuff belongs to the game world:
         this.leivSlider.connectBar(game.leivBar, null);

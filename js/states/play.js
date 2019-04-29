@@ -155,7 +155,7 @@ game.PlayStage = me.Stage.extend({
 
             me.game.world.removeChild(this.currentIsl);
             this.updatePreview();
-            game.delay(1000, () => {
+            game.delay(2000, () => {
                 this.startIsland();
             });
         }
@@ -204,10 +204,10 @@ game.PlayStage = me.Stage.extend({
 
     generateIslandArray: function() {
         let sequences = [
-            [1,0,1,0,0,1,0,2],
-            [1,0,0,0,1,1,0,2],
-            [1,0,0,1,1,0,0,2],
-            [1,0,1,0,1,0,0,2],
+            [1,0,1,0,0,1,1,2],
+            [1,0,0,1,0,1,1,2],
+            [1,0,0,1,1,0,1,2],
+            [1,0,1,0,1,0,1,2],
         ]
         return sequences[Math.floor(Math.random() * sequences.length)];
     },
