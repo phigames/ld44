@@ -1,6 +1,6 @@
 game.GUI = {
     font: "sans-serif",
-    fontSize: 30,
+    fontSize: 20,
     fontColor: "#000000",
 };
 
@@ -46,7 +46,7 @@ game.GUI.Slider = me.Container.extend({
 
         this.buttonOffsetX = 0;
         this.buttonOffsetY = 23;
-        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
+        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin" });
         this.addChild(this.button, 100);
 
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
@@ -236,8 +236,12 @@ game.GUI.TextBar = me.Container.extend({
 
 
 game.GUI.TextOverlay = me.Container.extend({
-    init: function(x, y, text) {
+    init: function(x, y, text, color) {
         this._super(me.Container, "init", [x, y]);
+        if (typeof color === "undefined") {
+            color = null;
+        }
+        this.color = color;
         this.margin = 10;
         this.text = new me.Text(this.margin, this.margin, { font: game.GUI.font,
                                                             size: game.GUI.fontSize,
@@ -250,8 +254,10 @@ game.GUI.TextOverlay = me.Container.extend({
     draw: function(renderer) {
         this.width = this.text.width + 2 * this.margin;
         this.height = this.text.height + 2 * this.margin;
-        renderer.setColor("#00FFFF");
-        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        if (this.color !== null) {
+            renderer.setColor(this.color);
+            renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        }
         this._super(me.Container, "draw", [renderer]);
     },
 });
