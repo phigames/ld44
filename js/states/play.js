@@ -134,24 +134,25 @@ game.PlayStage = me.Stage.extend({
                 me.audio.play("starve");
             });
         }
-        game.delay(1000, () => {
-            this.startIsland();
-        });
-
         console.log('People Died on the way:')
         console.log(leivLoss)
         console.log('Food eaten on the way:')
         console.log(foodLoss)
         console.log('nextIsland');
         if (game.playerData.leivNumber == 0) {
-            console.log('you have lost the game');
-            //me.state.set(me.state.PLAY, new game.PlayStage());
+            game.delay(1200, () => {
+                me.game.world.addChild(new me.Sprite(game.width / 2, game.height / 2, { image: "game_over" }), 400);
+                me.game.world.addChild(new game.GUI.TextOverlay(game.width / 2 - 52, game.height / 2 - 17, "All Leifs\nstarved"), 401);
+            });
         } else {
             this.currentInd++
 
             me.game.world.removeChild(this.currentIsl);
+            this.updatePreview();
+            game.delay(1000, () => {
+                this.startIsland();
+            });
         }
-        this.updatePreview();
     },
 
     startIsland: function() {

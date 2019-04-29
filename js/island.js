@@ -112,6 +112,9 @@ game.GoodIsland = game.Island.extend({
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
         me.game.world.removeChild(this.leivTextBar);
+        if (this.foodLossOrGain !== 0) {
+            me.audio.play("coin");
+        }
         this.end();
     }
 });

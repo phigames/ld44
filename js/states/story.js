@@ -1,0 +1,14 @@
+game.StoryStage = me.Stage.extend({
+
+    onResetEvent: function() {
+        me.game.world.reset();
+        // me.game.world.addChild(new me.Sprite(game.width / 2, game.height / 2, { image: "titlescreen" }));
+        me.game.world.addChild(new me.ColorLayer("#DDDDDD"));
+        me.game.world.addChild(new game.GUI.Button(game.width / 2 - 24, game.height - 60, "start", () => me.state.change(me.state.LOADING)));
+    },
+
+    onDestroyEvent: function() {
+
+    },
+    
+});
