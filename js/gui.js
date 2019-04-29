@@ -235,7 +235,7 @@ game.GUI.TextBar = me.Container.extend({
 
 
 game.GUI.TextOverlay = me.Container.extend({
-    init: function(x, y, text, color) {
+    init: function(x, y, text, color, small) {
         this._super(me.Container, "init", [x, y]);
         if (typeof color === "undefined") {
             color = null;
@@ -243,7 +243,7 @@ game.GUI.TextOverlay = me.Container.extend({
         this.color = color;
         this.margin = 10;
         this.text = new me.Text(this.margin, this.margin, { font: game.GUI.font,
-                                                            size: game.GUI.fontSize,
+                                                            size: small ? 10 : game.GUI.fontSize,
                                                             fillStyle: game.GUI.fontColor,
                                                             text: text });
         this.addChild(this.text, 100);
@@ -256,6 +256,9 @@ game.GUI.TextOverlay = me.Container.extend({
         if (this.color !== null) {
             renderer.setColor(this.color);
             renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+            renderer.setColor("#000000");
+            renderer.lineWidth = 1;
+            renderer.strokeRect(this.pos.x + 0.5, this.pos.y + 0.5, this.width, this.height);
         }
         this._super(me.Container, "draw", [renderer]);
     },
