@@ -46,7 +46,7 @@ game.GUI.Slider = me.Container.extend({
 
         this.buttonOffsetX = 0;
         this.buttonOffsetY = 23;
-        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin" });
+        this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
         this.addChild(this.button, 100);
 
         this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
