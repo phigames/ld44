@@ -37,14 +37,14 @@ game.GUI.Button = me.Container.extend({
 
 game.GUI.Slider = me.Container.extend({
     init: function(x, y, width, minValue, maxValue) {
-        this._super(me.Container, "init", [x, y, 180, 42]);
+        this._super(me.Container, "init", [x, y, 219, 42]);
         this.anchorPoint = { x: 0, y: 0 };
 
-        this.background = new me.Sprite(-20, 0, { image: "slider_panel" });
+        this.background = new me.Sprite(0, 0, { image: "slider_panel" });
         this.background.anchorPoint = { x: 0, y: 0 };
         this.addChild(this.background, 99);
 
-        this.buttonOffsetX = 0;
+        this.buttonOffsetX = 20;
         this.buttonOffsetY = 23;
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
         this.addChild(this.button, 100);
@@ -75,6 +75,11 @@ game.GUI.Slider = me.Container.extend({
 
     setValue: function(value) {
         this.value = value;
+        if (this.value < this.minValue) {
+            this.value = this.minValue;
+        } else if (this.value > this.maxValue) {
+            this.value = this.maxValue;
+        }
         this.updateConnections();
         this.updateGraphics();
     },
@@ -107,14 +112,14 @@ game.GUI.Slider = me.Container.extend({
     },
 
     updateGraphics: function() {
-        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * this.width;
+        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * (this.width - 2 * this.buttonOffsetX);
         this.button.pos.x = buttonX;
         this.valueText.setText(this.getValue());
     },
 
     onMove: function(event) {
         if (this.pointerDown) {
-            this.setValue((event.gameX - this.pos.x) / this.width * (this.maxValue - this.minValue));
+            this.setValue((event.gameX - this.pos.x - this.buttonOffsetX) / (this.width - 2 * this.buttonOffsetX) * (this.maxValue - this.minValue));
         }
     },
 });

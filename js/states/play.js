@@ -105,7 +105,11 @@ game.PlayStage = me.Stage.extend({
             };
             x++;
         };
+        game.foodBar.setValue(game.playerData.foodNumber, true);
+
         game.playerData.leivNumber -= deadLeivs;
+        game.leivBar.setValue(0, true);
+        
         return [-(deadLeivs), -(fedLeivs*game.playerData.eatRate)]
     },
 
