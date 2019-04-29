@@ -78,7 +78,7 @@ game.GoodIsland = game.Island.extend({
         this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
 
         // this stuff belongs to the island:
-        this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
+        this.addChild(new me.Sprite(0, 0, { image: "good_island", anchorPoint: { x: 0, y: 0 } }), 1)
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(-8, 15, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(20, 26, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
@@ -130,13 +130,13 @@ game.BadIsland = game.Island.extend({
         this.leivSlider.connectBar(game.leivBar, null);
 
         // this stuff belongs to the island:
-        this.addChild(new me.Sprite(0, 0, { image: "island", anchorPoint: { x: 0, y: 0 } }), 1)
+        this.addChild(new me.Sprite(0, 0, { image: "bad_island", anchorPoint: { x: 0, y: 0 } }), 1)
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(70, -18, { image: "flag_right", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(-25, 25, { image: "evil_man", anchorPoint: { x: 0, y: 0 } }), 3)
         this.addChild(new me.Sprite(100, 14, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
 
-        this.addChild(new game.GUI.TextOverlay(30,60,this.numberPeople))
+        this.addChild(new game.GUI.TextOverlay(-5,15,"x " + this.numberPeople))
         this.addChild(new game.GUI.TextOverlay(80,60,this.numberFood))
         
         // this stuff belongs to the game world:
