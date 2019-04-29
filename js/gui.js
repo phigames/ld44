@@ -2,41 +2,35 @@ game.GUI = {
     font: 'ZCOOL KuaiLe',
     fontSize: 20,
     fontColor: "#000000",
+    waterLevel: 0,
 };
 
 
 game.GUI.Button = me.Container.extend({
-    init: function(x, y, label, onClick) {
+    init: function(x, y, image, onClick) {
         this._super(me.Container, "init", [x, y, 100, 50]);
         this.anchorPoint = { x: 0, y: 0 };
-        this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
-                                                      size: game.GUI.fontSize,
-                                                      fillStyle: game.GUI.fontColor,
-                                                      text: label,
-                                                      textAlign: "center" });
-        this.addChild(this.text, 100);
-        this.backgroundColor = "#FF0000";
-        this.backgroundColorHover = "#880000";
+        this.sprite = new me.Sprite(0, 0, { image: image + "_unpressed" });
+        this.sprite.anchorPoint = { x: 0, y: 0 };
+        // this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
+        //                                               size: game.GUI.fontSize,
+        //                                               fillStyle: game.GUI.fontColor,
+        //                                               textAlign: "center" });
+        this.addChild(this.sprite, 99);
+        // this.addChild(this.text, 100);
         
         this.pointerOver = false;
-        me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
-                                                                    me.game.repaint(); });
-        me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
-                                                                    me.game.repaint(); });
+        // me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
+        //                                                             me.game.repaint(); });
+        // me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
+        //                                                             me.game.repaint(); });
         me.input.registerPointerEvent("pointerdown", this, onClick);
-    },
-
-    draw: function(renderer) {
-        renderer.setColor(this.pointerOver ? this.backgroundColorHover
-                                           : this.backgroundColor);
-        renderer.fillRect(this.pos.x, this.pos.y, this.width, this.height);
-        this._super(me.Container, "draw", [renderer]);
     },
 });
 
 
 game.GUI.Slider = me.Container.extend({
-    init: function(x, y, width, minValue, maxValue) {
+    init: function(x, y, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, 219, 42]);
         this.anchorPoint = { x: 0, y: 0 };
 
@@ -49,10 +43,10 @@ game.GUI.Slider = me.Container.extend({
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
         this.addChild(this.button, 100);
 
-        this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
-                                                      size: game.GUI.fontSize,
-                                                      fillStyle: game.GUI.fontColor });
-        this.addChild(this.valueText, 100);
+        // this.valueText = new me.Text(0, -25, { font: game.GUI.font,
+        //                                               size: game.GUI.fontSize,
+        //                                               fillStyle: game.GUI.fontColor });
+        // this.addChild(this.valueText, 100);
 
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -114,7 +108,7 @@ game.GUI.Slider = me.Container.extend({
     updateGraphics: function() {
         let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * (this.width - 2 * this.buttonOffsetX);
         this.button.pos.x = buttonX;
-        this.valueText.setText(this.getValue());
+        // this.valueText.setText(this.getValue());
     },
 
     onMove: function(event) {
@@ -161,7 +155,6 @@ game.GUI.IconBar = me.Container.extend({
     updateGraphics: function(animate) {
         if (this.value > this.icons.length) {
             // add icons
-            console.log("up to ", this.value, " icons");
             for (let i = this.icons.length; i < this.value; i++) {
                 let newIcon = new game.TransitioningSprite(i * 3, 0, this.icon, "top", 20, "bottom", 20, 300, true);
                 // let newIcon = new me.Sprite(i * 3, -20, { image: this.icon });
@@ -175,11 +168,12 @@ game.GUI.IconBar = me.Container.extend({
             }
         } else {
             // remove icons
-            for (let i = this.icons.length - 1; i >= this.getValue(); i--) {
+            let lastI = this.icons.length - 1;
+            for (let i = lastI; i >= this.getValue(); i--) {
                 let oldIcon = this.icons.pop();
                 //TODO cancel running tweens
                 if (animate) {
-                    oldIcon.disappear(() => this.removeChild(oldIcon));
+                    oldIcon.disappear(() => this.removeChild(oldIcon), (-i + lastI) * 200);
                 } else {
                     this.removeChild(oldIcon);
                 }
@@ -221,7 +215,7 @@ game.GUI.TextBar = me.Container.extend({
         this.text = new me.Text(0, 0, { font: game.GUI.font,
                                         size: game.GUI.fontSize,
                                         fillStyle: game.GUI.fontColor });
-        this.addChild(this.text);
+        this.addChild(this.text, 100);
         this.setValue(this.value);
     },
 
@@ -230,8 +224,8 @@ game.GUI.TextBar = me.Container.extend({
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
         }
-        this.text.setText(this.getValue());
-        return this.value;
+        this.text.setText("x " + this.getValue());
+        return this.getValue();
     },
 
     getValue: function() {

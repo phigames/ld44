@@ -1,6 +1,6 @@
 game.Island = me.Container.extend({
     init: function(difficulty) {
-        this._super(me.Container, "init", [290, 80]);
+        this._super(me.Container, "init", [290, 80 + game.GUI.waterLevel]);
         this.anchorPoint = { x: 0, y: 0 };
         this.foodLossOrGain = 0;
         this.leivLoss = 0;
@@ -74,26 +74,27 @@ game.GoodIsland = game.Island.extend({
         //console.log('generate Food', this.numberFood)
         console.log("that is a good island");
         // Slider
-        this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber-1);
-        this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
+        this.leivSlider = new game.GUI.Slider(200, 215, 0, game.playerData.leivNumber-1);
+        this.button = new game.GUI.Button(420, /*100*/212, 'trade', this.onclickButt.bind(this));
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "good_island", anchorPoint: { x: 0, y: 0 } }), 1)
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
-        this.addChild(new me.Sprite(-8, 15, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
-        this.addChild(new me.Sprite(20, 26, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(-8, 22, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(20, 22, { image: "leiv", anchorPoint: { x: 0, y: 0 } }), 3)
 
-        this.leivSlider.connectBar(game.leivBar, null);
+
         
-        this.addChild(new game.GUI.TextOverlay(30,60,this.exchangeRate))
+        this.addChild(new game.GUI.TextOverlay(-35, 10, this.exchangeRate + "      /"))
 
         // this stuff belongs to the game world:
-        me.game.world.addChild(this.button, 100);
-        me.game.world.addChild(this.leivSlider, 100);
-    },
+        this.leivSlider.connectBar(game.leivBar, null);
+        this.leivTextBar = new game.GUI.TextBar(50, 110, game.playerData.leivNumber);
+        this.leivSlider.connectBar(this.leivTextBar, 1);
 
-    start: function(onDone) {
-        this._super(game.Island, "start", [onDone]);
+        me.game.world.addChild(this.button, 100);
+        me.game.world.addChild(this.leivSlider, 101);
+        me.game.world.addChild(this.leivTextBar, 101);
     },
 
     onclickButt: function(){
@@ -110,6 +111,7 @@ game.GoodIsland = game.Island.extend({
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
+        me.game.world.removeChild(this.leivTextBar);
         this.end();
     }
 });
@@ -124,8 +126,8 @@ game.BadIsland = game.Island.extend({
         console.log('Enemy number generated', this.numberPeople);
         console.log('this is a bad island');
         //Slider
-        this.leivSlider = new game.GUI.Slider(240, 210, 200, 0, game.playerData.leivNumber - 1);
-        this.button = new game.GUI.Button(10, 10, 'böttn', this.onclickButt.bind(this));
+        this.leivSlider = new game.GUI.Slider(240, 210, 0, game.playerData.leivNumber - 1);
+        this.button = new game.GUI.Button(155, /*100*/80, 'fight', this.onclickButt.bind(this));
 
         this.leivSlider.connectBar(game.leivBar, null);
 
@@ -134,21 +136,20 @@ game.BadIsland = game.Island.extend({
         this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(70, -18, { image: "flag_right", anchorPoint: { x: 0, y: 0 } }), 2)
         this.addChild(new me.Sprite(-25, 25, { image: "evil_man", anchorPoint: { x: 0, y: 0 } }), 3)
-        this.addChild(new me.Sprite(100, 14, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(95, 14, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
 
         this.addChild(new game.GUI.TextOverlay(-5,15,"x " + this.numberPeople))
-        this.addChild(new game.GUI.TextOverlay(80,60,this.numberFood))
+        this.addChild(new game.GUI.TextOverlay(110,10,"x " + this.numberFood))
         
         // this stuff belongs to the game world:
+        this.leivTextBar = new game.GUI.TextBar(50, 110, game.playerData.leivNumber);
+        this.leivSlider.connectBar(this.leivTextBar, 1);
+
         me.game.world.addChild(this.button, 100);
         me.game.world.addChild(this.leivSlider, 100);
+        me.game.world.addChild(this.leivTextBar, 101);
     },
     
-    start: function(onDone) { 
-        this._super(game.Island, "start", [onDone]);
-        // 'enter button' added 
-    },
-
     onclickButt: function(){
         this.fight()
         console.log('LeivLoss:')
@@ -157,6 +158,7 @@ game.BadIsland = game.Island.extend({
         console.log(this.foodLossOrGain)
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
+        me.game.world.removeChild(this.leivTextBar);
         this.end();
     },
 
@@ -187,15 +189,6 @@ game.BadIsland = game.Island.extend({
                 game.playerData.foodNumber = 0;
             }
             game.foodBar.setValue(game.playerData.foodNumber, true);
-        };
-
+        }
     },
-
-
-
-
-
-
-
-
 });

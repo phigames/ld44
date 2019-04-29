@@ -58,8 +58,8 @@ game.TransitioningSprite = me.Sprite.extend({
     },
 
     disappear: function(onComplete, delay) {
-        if (typeof remove === "undefined") {
-            remove = false;
+        if (typeof onComplete === "undefined") {
+            onComplete = null;
         }
         if (typeof delay === "undefined") {
             delay = 0;
@@ -74,7 +74,7 @@ game.TransitioningSprite = me.Sprite.extend({
                 this.tweenDuration)
             .easing(me.Tween.Easing.Quadratic.Out)
             .delay(delay);
-        if (remove) {
+        if (onComplete !== null) {
             tween.onComplete(onComplete);
         }
         tween.start();
