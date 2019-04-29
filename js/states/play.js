@@ -1,4 +1,3 @@
-
 game.PlayStage = me.Stage.extend({
 
     init: function() {
@@ -104,7 +103,7 @@ game.PlayStage = me.Stage.extend({
         if (typeof last === "undefined") {
             last = false;
         }
-        this.continueButton = new game.GUI.Button(game.width / 2, game.height / 2, "sail", () => {
+        this.continueButton = new game.GUI.Button(250, 5, "start", () => {
             me.game.world.removeChild(this.continueButton);
             if (last) {
                 this.lastIsland();
@@ -113,6 +112,7 @@ game.PlayStage = me.Stage.extend({
             }
         });
         me.game.world.addChild(this.continueButton);
+        this.removeTutorials();
     },
 
     lastIsland: function() {
@@ -150,7 +150,6 @@ game.PlayStage = me.Stage.extend({
             this.currentInd++
 
             me.game.world.removeChild(this.currentIsl);
-            this.removeTutorials();
         }
         this.updatePreview();
     },

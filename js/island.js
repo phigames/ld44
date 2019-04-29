@@ -75,7 +75,7 @@ game.GoodIsland = game.Island.extend({
         console.log("that is a good island");
         // Slider
         this.leivSlider = new game.GUI.Slider(200, 215, 0, game.playerData.leivNumber-1);
-        this.button = new game.GUI.Button(420, /*100*/212, 'trade', this.onclickButt.bind(this));
+        this.button = new game.GUI.Button(420, 212, 'trade', this.onclickButt.bind(this));
 
         // this stuff belongs to the island:
         this.addChild(new me.Sprite(0, 0, { image: "good_island", anchorPoint: { x: 0, y: 0 } }), 1)
@@ -126,8 +126,8 @@ game.BadIsland = game.Island.extend({
         console.log('Enemy number generated', this.numberPeople);
         console.log('this is a bad island');
         //Slider
-        this.leivSlider = new game.GUI.Slider(240, 210, 0, game.playerData.leivNumber - 1);
-        this.button = new game.GUI.Button(155, /*100*/80, 'fight', this.onclickButt.bind(this));
+        this.leivSlider = new game.GUI.Slider(200, 215, 0, game.playerData.leivNumber-1);
+        this.button = new game.GUI.Button(420, 212, 'fight', this.onclickButt.bind(this));
 
         this.leivSlider.connectBar(game.leivBar, null);
 
