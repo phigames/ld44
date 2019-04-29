@@ -109,16 +109,16 @@ game.PlayStage = me.Stage.extend({
 
         game.playerData.leivNumber -= deadLeivs;
         game.leivBar.setValue(0, true);
-        
+
         return [-(deadLeivs), -(fedLeivs*game.playerData.eatRate)]
     },
 
     generateIslandArray: function() {
         let sequences = [
-            [1,1,0,0,1,0],
-            [1,0,0,1,1,0],
-            [1,0,1,1,0,0],
-            [1,1,0,1,0,0]
+            [1,0,1,0,0,1,0],
+            [1,0,0,0,1,1,0],
+            [1,0,0,1,1,0,0],
+            [1,0,1,0,1,0,0]
         ]
         return sequences[Math.floor(Math.random() * sequences.length)];
     },

@@ -36,7 +36,7 @@ game.GUI.Button = me.Container.extend({
 
 
 game.GUI.Slider = me.Container.extend({
-    init: function(x, y, width, minValue, maxValue) {
+    init: function(x, y, minValue, maxValue) {
         this._super(me.Container, "init", [x, y, 219, 42]);
         this.anchorPoint = { x: 0, y: 0 };
 
@@ -49,10 +49,10 @@ game.GUI.Slider = me.Container.extend({
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
         this.addChild(this.button, 100);
 
-        this.valueText = new me.Text(this.width, 0, { font: game.GUI.font,
-                                                      size: game.GUI.fontSize,
-                                                      fillStyle: game.GUI.fontColor });
-        this.addChild(this.valueText, 100);
+        // this.valueText = new me.Text(0, -25, { font: game.GUI.font,
+        //                                               size: game.GUI.fontSize,
+        //                                               fillStyle: game.GUI.fontColor });
+        // this.addChild(this.valueText, 100);
 
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -114,7 +114,7 @@ game.GUI.Slider = me.Container.extend({
     updateGraphics: function() {
         let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * (this.width - 2 * this.buttonOffsetX);
         this.button.pos.x = buttonX;
-        this.valueText.setText(this.getValue());
+        // this.valueText.setText(this.getValue());
     },
 
     onMove: function(event) {
@@ -161,7 +161,6 @@ game.GUI.IconBar = me.Container.extend({
     updateGraphics: function(animate) {
         if (this.value > this.icons.length) {
             // add icons
-            console.log("up to ", this.value, " icons");
             for (let i = this.icons.length; i < this.value; i++) {
                 let newIcon = new game.TransitioningSprite(i * 3, 0, this.icon, "top", 20, "bottom", 20, 300, true);
                 // let newIcon = new me.Sprite(i * 3, -20, { image: this.icon });
@@ -221,7 +220,7 @@ game.GUI.TextBar = me.Container.extend({
         this.text = new me.Text(0, 0, { font: game.GUI.font,
                                         size: game.GUI.fontSize,
                                         fillStyle: game.GUI.fontColor });
-        this.addChild(this.text);
+        this.addChild(this.text, 100);
         this.setValue(this.value);
     },
 
@@ -230,8 +229,8 @@ game.GUI.TextBar = me.Container.extend({
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
         }
-        this.text.setText(this.getValue());
-        return this.value;
+        this.text.setText("x " + this.getValue());
+        return this.getValue();
     },
 
     getValue: function() {
