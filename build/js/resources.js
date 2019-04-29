@@ -50,6 +50,16 @@ game.resources = [
         "src": "res/img/bad_sky.png"
     },
     {
+        "name": "coast",
+        "type": "image",
+        "src": "res/img/coast.png"
+    },
+    {
+        "name": "defeat",
+        "type": "image",
+        "src": "res/img/defeat.png"
+    },
+    {
         "name": "evil_man",
         "type": "image",
         "src": "res/img/evil_man.png"
@@ -168,6 +178,11 @@ game.resources = [
         "name": "trade_unpressed",
         "type": "image",
         "src": "res/img/trade_unpressed.png"
+    },
+    {
+        "name": "victory",
+        "type": "image",
+        "src": "res/img/victory.png"
     },
     {
         "name": "water",
