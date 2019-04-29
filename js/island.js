@@ -21,7 +21,12 @@ game.Island = me.Container.extend({
     },
 
     end: function() {
-        this.onDone();
+        new me.Tween(this.pos)
+            .to({ x: -200 },
+                1000)
+            .easing(me.Tween.Easing.Quadratic.In)
+            .onComplete(this.onDone)
+            .start();
     },
 
     generateExchangeRate: function (level){
@@ -165,7 +170,7 @@ game.BadIsland = game.Island.extend({
             console.log("you have won the fight");
         };
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
-        game.leivBar.setValue(game.playerData.leivNumber, true);
+        game.leivBar.setValue(0, true);
 
         // if fight is lost enemies get all food from island
         if (winningParty == 1){

@@ -18,12 +18,10 @@ game.PlayStage = me.Stage.extend({
         game.foodBar = new game.GUI.IconBar(110, 55, "food", game.playerData.foodNumber);
         me.game.world.addChild(game.leivBar, 100);
         me.game.world.addChild(game.foodBar, 100);
-        console.log(game.leivBar);
         
         //The Setting of the Island
         this.currentInd = 0;
         this.islandArray = this.generateIslandArray();
-        console.log(this.islandArray);
 
         //The Init of a single island
         if (this.islandArray[this.currentInd] == 0) {
@@ -68,7 +66,7 @@ game.PlayStage = me.Stage.extend({
         console.log('Food eaten on the way:')
         console.log(foodLoss)
         console.log('nextIsland');
-        if (game.playerData.leivNumber==0) {
+        if (game.playerData.leivNumber == 0) {
             console.log('you have lost the game');
             //me.state.set(me.state.PLAY, new game.PlayStage());
         } else {

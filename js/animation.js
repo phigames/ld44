@@ -57,9 +57,12 @@ game.TransitioningSprite = me.Sprite.extend({
         }
     },
 
-    disappear: function(remove) {
+    disappear: function(onComplete, delay) {
         if (typeof remove === "undefined") {
             remove = false;
+        }
+        if (typeof delay === "undefined") {
+            delay = 0;
         }
         this.pos.x = this.stillX;
         this.pos.y = this.stillY;
@@ -70,8 +73,9 @@ game.TransitioningSprite = me.Sprite.extend({
                   y: this.stillY + this.tweenOutDistanceY },
                 this.tweenDuration)
             .easing(me.Tween.Easing.Quadratic.Out)
+            .delay(delay);
         if (remove) {
-            tween.onComplete(() => this.ancestor.removeChild(this));
+            tween.onComplete(onComplete);
         }
         tween.start();
 
