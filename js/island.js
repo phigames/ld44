@@ -8,6 +8,7 @@ game.Island = me.Container.extend({
         this.onDone = null;
         this.leivBar = new game.GUI.LeivIconBar(100,10,50);
         me.game.world.addChild(this.leivBar, 100);
+        // TODO re-implement Vera's foodBar and leivBar coordinates
     },
     start: function(onDone) {
         this.onDone = onDone;

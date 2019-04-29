@@ -96,7 +96,7 @@ game.GUI.Slider = me.Container.extend({
             // stupid hack ahead!
             if (this.connectedBarRatios[i] == null) {
                 // this is a leivBar!
-                this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
+                this.connectedBars[i].setValue(-this.value, true);
             } else {
                 // not a leivBar
                 let barValue = this.connectedBars[i].setValue(this.value * this.connectedBarRatios[i]);
@@ -135,30 +135,50 @@ game.GUI.IconBar = me.Container.extend({
         this.setValue(this.value);
     },
 
-    setValue: function(value) {
+    setValue: function(value, animate) {
+        if (typeof animate === "undefined") {
+            animate = false;
+        }
         this.value = value;
         if (this.value > this.maxValue) {
             this.value = this.maxValue;
         }
         
-        if (this.value > this.icons.length) {
-            // add icons
-            for (let i = this.icons.length; i < this.value; i++) {
-                this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
-                this.addChild(this.icons[i]);
-            }
-        } else {
-            // remove icons
-            for (let i = this.icons.length - 1; i >= this.value; i--) {
-                this.removeChild(this.icons.pop());
-            }
-        }
+        this.updateGraphics(animate);
 
         return this.getValue();
     },
 
     getValue: function() {
         return Math.round(this.value);
+    },
+
+    updateGraphics: function(animate) {
+        if (this.value > this.icons.length) {
+            // add icons
+            for (let i = this.icons.length; i < this.value; i++) {
+                let newIcon = new game.TransitioningSprite(i * 3, 0, this.icon, "top", 20, "bottom", 20, 300, true);
+                // let newIcon = new me.Sprite(i * 3, -20, { image: this.icon });
+                this.icons.push(newIcon);
+                this.addChild(newIcon);
+                if (animate) {
+                    newIcon.appear();
+                } else {
+                    newIcon.jumpToPosition();
+                }
+            }
+        } else {
+            // remove icons
+            for (let i = this.icons.length - 1; i >= this.value; i--) {
+                let oldIcon = this.icons.pop();
+                //TODO cancel running tweens
+                if (animate) {
+                    oldIcon.disappear(true);
+                } else {
+                    this.removeChild(oldIcon);
+                }
+            }
+        }
     },
 });
 
@@ -172,21 +192,13 @@ game.GUI.LeivIconBar = game.GUI.IconBar.extend({
         this.setValue(0);
     },
 
-    setValue: function(value) {
+    setValue: function(value, animate) {
+        if (typeof animate === "undefined") {
+            animate = false;
+        }
         this.value = game.playerData.leivNumber + value;
 
-        if (this.value > this.icons.length) {
-            // add icons
-            for (let i = this.icons.length; i < this.value; i++) {
-                this.icons.push(new me.Sprite(i * 3, 0, { image: this.icon }));
-                this.addChild(this.icons[i]);
-            }
-        } else {
-            // remove icons
-            for (let i = this.icons.length - 1; i >= this.value; i--) {
-                this.removeChild(this.icons.pop());
-            }
-        }
+        this.updateGraphics(animate);
 
         return this.getValue();
     }
