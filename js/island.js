@@ -181,12 +181,17 @@ game.BadIsland = game.Island.extend({
         else {
             this.foodLossOrGain = -(this.numberPeople * game.playerData.stealRate)
             // Make sure that not more food than usr has can be stolen
-            if(this.numberPeople * game.playerData.stealRate>game.playerData.numberFood){
-                this.foodLossOrGain = -(game.playerData.numberFood)
-                game.playerData.foodNumber = 0; 
-            }else{
-                game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            if (game.playerData.foodNumber < 0) {
+                this.foodLossOrGain -= game.playerData.foodNumber;
+                game.playerData.foodNumber = 0;
             }
+            // if(this.numberPeople * game.playerData.stealRate>game.playerData.numberFood){
+            //     this.foodLossOrGain = -(game.playerData.numberFood)
+            //     game.playerData.foodNumber = 0; 
+            // }else{
+            //     game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            // }
         };
 
     },

@@ -107,7 +107,7 @@ game.GUI.Slider = me.Container.extend({
     },
 
     updateGraphics: function() {
-        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue) * this.width;
+        let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * this.width;
         this.button.pos.x = buttonX;
         this.valueText.setText(this.getValue());
     },
