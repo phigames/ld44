@@ -86,6 +86,7 @@ game.PlayStage = me.Stage.extend({
         for (let i = 0; i < this.tutorialTexts.length; i++) {
             me.game.world.removeChild(this.tutorialTexts[i]);
         }
+        this.tutorialTexts = [];
     },
 
     addTutorial: function(index) {
@@ -106,7 +107,23 @@ game.PlayStage = me.Stage.extend({
     },
 
     nextIsland: function(){
-        let [leivLoss, foodLoss] = this.letLeivsEat()
+        let [leivLoss, foodLoss] = this.letLeivsEat();
+
+        // update bars, play sounds
+        if (foodLoss < 0) {
+            game.foodBar.setValue(game.playerData.foodNumber, true);
+            me.audio.play("eat");
+        }
+        if (leivLoss < 0) {
+            game.delay(800, () => {
+                game.leivBar.setValue(0, true);
+                me.audio.play("starve");
+            });
+        }
+        game.delay(1000, () => {
+            this.startIsland();
+        });
+
         console.log('People Died on the way:')
         console.log(leivLoss)
         console.log('Food eaten on the way:')
@@ -120,22 +137,24 @@ game.PlayStage = me.Stage.extend({
 
             me.game.world.removeChild(this.currentIsl);
             this.removeTutorials();
-
-            if (this.islandArray[this.currentInd] == 0) {
-                this.currentIsl = new game.GoodIsland(this.currentInd);
-            } else {
-                this.currentIsl = new game.BadIsland(this.currentInd);
-            }
-
-            if (this.currentInd == this.islandArray.length) {
-                this.currentIsl.start(this.lastIsland.bind(this));
-            } else {
-                this.currentIsl.start(this.nextIsland.bind(this));
-            }
-            me.game.world.addChild(this.currentIsl, 1.5);
-            this.addTutorial(this.currentInd);
         }
         this.updatePreview();
+    },
+
+    startIsland: function() {
+        if (this.islandArray[this.currentInd] == 0) {
+            this.currentIsl = new game.GoodIsland(this.currentInd);
+        } else {
+            this.currentIsl = new game.BadIsland(this.currentInd);
+        }
+
+        if (this.currentInd == this.islandArray.length) {
+            this.currentIsl.start(this.lastIsland.bind(this));
+        } else {
+            this.currentIsl.start(this.nextIsland.bind(this));
+        }
+        me.game.world.addChild(this.currentIsl, 1.5);
+        this.addTutorial(this.currentInd);
     },
 
     letLeivsEat: function(){
@@ -154,10 +173,8 @@ game.PlayStage = me.Stage.extend({
             };
             x++;
         };
-        game.foodBar.setValue(game.playerData.foodNumber, true);
 
         game.playerData.leivNumber -= deadLeivs;
-        game.leivBar.setValue(0, true);
 
         return [-(deadLeivs), -(fedLeivs*game.playerData.eatRate)]
     },

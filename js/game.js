@@ -1,4 +1,12 @@
 var game = {
+    // terrible abuse of tweens
+    delay: function(time, func) {
+        new me.Tween(me.game.world)
+            .delay(time)
+            .onComplete(func)
+            .start();
+    },
+    
     onload: function() {
         if (!me.video.init(game.width, game.height, {
             wrapper : "screen",

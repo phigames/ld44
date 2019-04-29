@@ -151,7 +151,6 @@ game.BadIsland = game.Island.extend({
     },
     
     onclickButt: function(){
-        this.fight()
         console.log('LeivLoss:')
         console.log(this.leivLoss)
         console.log('foodLossOrGain:')
@@ -159,36 +158,54 @@ game.BadIsland = game.Island.extend({
         me.game.world.removeChild(this.button);
         me.game.world.removeChild(this.leivSlider);
         me.game.world.removeChild(this.leivTextBar);
-        this.end();
+        this.fight()
     },
 
     fight: function(){
+        console.log("fight");
         this.leivLoss = -(this.leivSlider.getValue());
-        let pWinIsland = this.numberPeople/(this.numberPeople + this.leivLoss);
+        let pWinIsland = this.numberPeople / (this.numberPeople + this.leivLoss);
         let randNumber = Math.random();
         let winningParty = 0;
-        if (randNumber > pWinIsland){
-            winningParty = 1;
-            console.log("you have won the fight");
-        };
+        // if (randNumber > pWinIsland){
+        //     winningParty = 1;
+        //     console.log("you have won the fight");
+        // };
         game.playerData.leivNumber = game.playerData.leivNumber + this.leivLoss;
-        game.leivBar.setValue(0, true);
+        me.audio.play("fight");
+        game.delay(1000, () => {
+            game.leivBar.setValue(0, true);
+            this.onFightOver(randNumber > pWinIsland ? 1 : 0);
+        });
+    },
 
-        // if fight is lost enemies get all food from island
+    onFightOver(winningParty) {
+        console.log("fight over");
+        
+        console.log(game.playerData.foodNumber);
+        // player won the fight -> player steals food
         if (winningParty == 1){
             this.foodLossOrGain = this.numberFood;
-            game.playerData.foodNumber = game.playerData.foodNumber + this.numberFood;
+            game.playerData.foodNumber += this.numberFood;
+            me.audio.play("win");
         }
-        // make sure that enemies steel food if fight is lost
+        // player lost the fight -> enemies steal food
         else {
             this.foodLossOrGain = -(this.numberPeople * game.playerData.stealRate)
             // Make sure that not more food than usr has can be stolen
-            game.playerData.foodNumber = game.playerData.foodNumber + this.foodLossOrGain;
+            game.playerData.foodNumber += this.foodLossOrGain;
             if (game.playerData.foodNumber < 0) {
                 this.foodLossOrGain -= game.playerData.foodNumber;
                 game.playerData.foodNumber = 0;
             }
-            game.foodBar.setValue(game.playerData.foodNumber, true);
+            me.audio.play("die");
         }
-    },
+
+        console.log(game.playerData.foodNumber);
+        game.foodBar.setValue(game.playerData.foodNumber, true);
+
+        game.delay(500, () => {
+            this.end();
+        });
+    }
 });

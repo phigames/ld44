@@ -12,18 +12,9 @@ game.GUI.Button = me.Container.extend({
         this.anchorPoint = { x: 0, y: 0 };
         this.sprite = new me.Sprite(0, 0, { image: image + "_unpressed" });
         this.sprite.anchorPoint = { x: 0, y: 0 };
-        // this.text = new me.Text(this.width / 2, 10, { font: game.GUI.font,
-        //                                               size: game.GUI.fontSize,
-        //                                               fillStyle: game.GUI.fontColor,
-        //                                               textAlign: "center" });
         this.addChild(this.sprite, 99);
-        // this.addChild(this.text, 100);
         
         this.pointerOver = false;
-        // me.input.registerPointerEvent("pointerenter", this, () => { this.pointerOver = true;
-        //                                                             me.game.repaint(); });
-        // me.input.registerPointerEvent("pointerleave", this, () => { this.pointerOver = false;
-        //                                                             me.game.repaint(); });
         me.input.registerPointerEvent("pointerdown", this, onClick);
     },
 });
@@ -43,16 +34,10 @@ game.GUI.Slider = me.Container.extend({
         this.button = new me.Sprite(this.buttonOffsetX, this.buttonOffsetY, { image: "slider_knobbin_unpressed" });
         this.addChild(this.button, 100);
 
-        // this.valueText = new me.Text(0, -25, { font: game.GUI.font,
-        //                                               size: game.GUI.fontSize,
-        //                                               fillStyle: game.GUI.fontColor });
-        // this.addChild(this.valueText, 100);
-
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.value = minValue;
 
-        // this.connectedIconBar = this.connectedIconBarRatio = null;
         this.connectedBars = [];
         this.connectedBarRatios = [];
 
@@ -101,14 +86,12 @@ game.GUI.Slider = me.Container.extend({
                 let barValue = this.connectedBars[i].setValue(this.getValue() * this.connectedBarRatios[i]);
                 this.value = barValue / this.connectedBarRatios[i];
             }
-            // this.updateText();
         }
     },
 
     updateGraphics: function() {
         let buttonX = this.buttonOffsetX + this.value / (this.maxValue - this.minValue || 1) * (this.width - 2 * this.buttonOffsetX);
         this.button.pos.x = buttonX;
-        // this.valueText.setText(this.getValue());
     },
 
     onMove: function(event) {
@@ -120,12 +103,11 @@ game.GUI.Slider = me.Container.extend({
 
 
 game.GUI.IconBar = me.Container.extend({
-    init: function(x, y, icon, maxValue) {
+    init: function(x, y, icon, value) {
         this._super(me.Container, "init", [x, y]);
         this.anchorPoint = { x: 0, y: 0 };
         this.icon = icon;
-        this.maxValue = maxValue;
-        this.value = maxValue;
+        this.value = value;
         this.icons = [];
         this.initValue();
     },
@@ -139,9 +121,6 @@ game.GUI.IconBar = me.Container.extend({
             animate = false;
         }
         this.value = value;
-        if (this.value > this.maxValue) {
-            this.value = this.maxValue;
-        }
         
         this.updateGraphics(animate);
 
@@ -157,7 +136,6 @@ game.GUI.IconBar = me.Container.extend({
             // add icons
             for (let i = this.icons.length; i < this.value; i++) {
                 let newIcon = new game.TransitioningSprite(i * 3, 0, this.icon, "top", 20, "bottom", 20, 300, true);
-                // let newIcon = new me.Sprite(i * 3, -20, { image: this.icon });
                 this.icons.push(newIcon);
                 this.addChild(newIcon, i);
                 if (animate) {
@@ -184,8 +162,8 @@ game.GUI.IconBar = me.Container.extend({
 
 
 game.GUI.LeivIconBar = game.GUI.IconBar.extend({
-    init: function(x, y, maxValue) {
-        this._super(game.GUI.IconBar, "init", [x, y, "leiv", maxValue]);
+    init: function(x, y, value) {
+        this._super(game.GUI.IconBar, "init", [x, y, "leiv", value]);
     },
 
     initValue: function() {
@@ -206,11 +184,10 @@ game.GUI.LeivIconBar = game.GUI.IconBar.extend({
 
 
 game.GUI.TextBar = me.Container.extend({
-    init: function(x, y, maxValue) {
+    init: function(x, y, value) {
         this._super(me.Container, "init", [x, y]);
         this.anchorPoint = { x: 0, y: 0 };
-        this.maxValue = maxValue;
-        this.value = maxValue;
+        this.value = value;
         this.color = "#FF0000";
         this.text = new me.Text(0, 0, { font: game.GUI.font,
                                         size: game.GUI.fontSize,
@@ -221,9 +198,6 @@ game.GUI.TextBar = me.Container.extend({
 
     setValue: function(value) {
         this.value = value;
-        if (this.value > this.maxValue) {
-            this.value = this.maxValue;
-        }
         this.text.setText("x " + this.getValue());
         return this.getValue();
     },
