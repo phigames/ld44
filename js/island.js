@@ -135,16 +135,23 @@ game.BadIsland = game.Island.extend({
         this.leivSlider.connectBar(game.leivBar, null);
 
         // this stuff belongs to the island:
-        this.addChild(new me.Sprite(0, 0, { image: "bad_island", anchorPoint: { x: 0, y: 0 } }), 1)
-        this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2)
-        this.addChild(new me.Sprite(70, -18, { image: "flag_right", anchorPoint: { x: 0, y: 0 } }), 2)
-        this.addChild(new me.Sprite(-25, 25, { image: "evil_man", anchorPoint: { x: 0, y: 0 } }), 3)
-        this.addChild(new me.Sprite(95, 14, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3)
+        this.addChild(new me.Sprite(0, 0, { image: "bad_island", anchorPoint: { x: 0, y: 0 } }), 1);
+        this.addChild(new me.Sprite(-50, -15, { image: "flag_left", anchorPoint: { x: 0, y: 0 } }), 2);
+        this.addChild(new me.Sprite(70, -18, { image: "flag_right", anchorPoint: { x: 0, y: 0 } }), 2);
+        this.addChild(new me.Sprite(-25, 25, { image: "evil_man", anchorPoint: { x: 0, y: 0 } }), 3);
+        this.addChild(new me.Sprite(95, 14, { image: "food", anchorPoint: { x: 0, y: 0 } }), 3);
 
-        this.addChild(new game.GUI.TextOverlay(-5,15,"x " + this.numberPeople))
-        this.addChild(new game.GUI.TextOverlay(110,10,"x " + this.numberFood))
+        this.addChild(new game.GUI.TextOverlay(-5,15,"x " + this.numberPeople));
+        this.addChild(new game.GUI.TextOverlay(110,10,"x " + this.numberFood));
         
         // this stuff belongs to the game world:
+        this.sky = new me.Sprite(game.width / 2, game.height / 2, {image:'bad_sky'});
+        this.sky.alpha = 0;
+        me.game.world.addChild(this.sky, 0.5);
+        new me.Tween(this.sky)
+            .to({ alpha: 1 }, 1000)
+            .start();
+        
         this.leivTextBar = new game.GUI.TextBar(50, 110, game.playerData.leivNumber);
         this.leivSlider.connectBar(this.leivTextBar, 1);
 
@@ -191,6 +198,16 @@ game.BadIsland = game.Island.extend({
             this.foodLossOrGain = this.numberFood;
             game.playerData.foodNumber += this.numberFood;
             me.audio.play("win");
+            let victory = new me.Sprite(game.width / 2, game.height / 2, { image: "victory" });
+            victory.alpha = 0;
+            new me.Tween(victory)
+                .to({ alpha: 1 }, 1000)
+                .easing(me.Tween.Easing.Cubic.Out)
+                .repeat(1)
+                .yoyo(true)
+                .onComplete(() => me.game.world.removeChild(victory))
+                .start();
+            me.game.world.addChild(victory);
         }
         // player lost the fight -> enemies steal food
         else {
@@ -201,12 +218,26 @@ game.BadIsland = game.Island.extend({
                 this.foodLossOrGain -= game.playerData.foodNumber;
                 game.playerData.foodNumber = 0;
             }
+            let defeat = new me.Sprite(game.width / 2, game.height / 2, { image: "defeat" });
+            defeat.alpha = 0;
+            new me.Tween(defeat)
+                .to({ alpha: 1 }, 1000)
+                .easing(me.Tween.Easing.Cubic.Out)
+                .repeat(1)
+                .yoyo(true)
+                .onComplete(() => me.game.world.removeChild(defeat))
+                .start();
+            me.game.world.addChild(defeat);
             me.audio.play("die");
         }
 
         console.log(game.playerData.foodNumber);
         game.foodBar.setValue(game.playerData.foodNumber, true);
 
+        new me.Tween(this.sky)
+            .to({ alpha: 0 }, 1000)
+            .onComplete(() => me.game.world.removeChild(this.sky))
+            .start();
         game.delay(500, () => {
             this.end();
         });
