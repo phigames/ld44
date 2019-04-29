@@ -1,5 +1,5 @@
 game.GUI = {
-    font: "sans-serif",
+    font: 'ZCOOL KuaiLe',
     fontSize: 20,
     fontColor: "#000000",
 };
