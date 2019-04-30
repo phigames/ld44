@@ -5,6 +5,11 @@ body {
     text-align: center;
 }
 
+canvas {
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
 #screen {
     width: 960px;
     height: 540px;
